@@ -5,7 +5,7 @@ import Button from './components/Button';
 import Flex from './components/Flex';
 import Input from './components/Input';
 import { saveTextsToFile, saveWordsToFile } from './utils/file';
-import { localeObject } from './utils/settings';
+import { LOCALE_OBJECT } from './utils/settings';
 
 interface EmptyProps {
   translate: Translate;
@@ -26,7 +26,7 @@ export default function TranslateComponent({
   translate,
   branch
 }: EmptyProps) {
-  const [trans, setTrans] = useState(localeObject);
+  const [trans, setTrans] = useState(LOCALE_OBJECT);
   const [busy, setBusy] = useState(false);
   
   return (
@@ -63,12 +63,13 @@ export default function TranslateComponent({
     
     if (branch.sentence) {
       const texts = translate.exportTexts();
-      console.log(texts)
       await saveTextsToFile(texts);
     } else {
       const words = translate.exportWords();
       await saveWordsToFile(words);
     }
+    
+    setBusy(false);
   }
 }
 

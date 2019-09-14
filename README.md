@@ -36,10 +36,11 @@ function App() {
 
 You also need to start a server in development environment.
 ```
-DIST=%PATH% node node_modules/@ewb/react-translate/server
+DIST=%PATH% PORT=$PORT$ node node_modules/@ewb/react-translate/server
 ```
 This server will save 2 files `words.json` and `texts.json` when you add translations in the front-end.  
-PATH is default /public
+PATH is default src/translate  
+PORT is default 3001
 
 ## Translate
 ```
