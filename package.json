@@ -33,7 +33,8 @@
   },
   "homepage": "https://github.com/EmilsWebbod/react-translate#readme",
   "files": [
-    "lib"
+    "lib",
+    "server.js"
   ],
   "husky": {
     "hooks": {
