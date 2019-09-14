@@ -59,6 +59,6 @@
     "react-dom": "^16.9.0"
   },
   "dependencies": {
-    "@ewb/translate": "^1.0.2"
+    "@ewb/translate": "^1.0.3"
   }
 }
