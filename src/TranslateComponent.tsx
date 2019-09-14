@@ -1,6 +1,5 @@
-import { Branch } from '@ewb/translate';
+import Translate, { Branch } from '@ewb/translate';
 import React, { CSSProperties, FormEvent, useState } from 'react';
-import translate from './index';
 import Button from './components/Button';
 import Flex from './components/Flex';
 import Input from './components/Input';
@@ -8,6 +7,7 @@ import { saveTextsToFile, saveWordsToFile } from './utils/file';
 import { localeObject } from './utils/settings';
 
 interface EmptyProps {
+  translate: Translate;
   branch: Branch;
 }
 
@@ -22,6 +22,7 @@ const style: CSSProperties = {
 };
 
 export default function TranslateComponent({
+  translate,
   branch
 }: EmptyProps) {
   const [trans, setTrans] = useState(localeObject);
