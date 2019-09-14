@@ -1,5 +1,6 @@
+import * as React from 'react';
+import { CSSProperties, FormEvent, useState } from 'react';
 import Translate, { Branch } from '@ewb/translate';
-import React, { CSSProperties, FormEvent, useState } from 'react';
 import Button from './components/Button';
 import Flex from './components/Flex';
 import Input from './components/Input';

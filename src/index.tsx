@@ -1,5 +1,5 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import Translate, { Branch, Empty } from '@ewb/translate';
 import EmptyComponent from './EmptyComponent';
 import TranslateComponent from './TranslateComponent';
