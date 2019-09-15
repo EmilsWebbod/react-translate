@@ -1,6 +1,6 @@
 # React translate
 
-Uses the [@ewb/translate](https://github.com/EmilsWebbod/react-translate) library in the background to translate words and texts.
+Uses the [@ewb/translate](https://github.com/EmilsWebbod/translate) library in the background to translate words and texts.
 
 ## Setup
 
