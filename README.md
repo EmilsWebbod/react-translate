@@ -30,6 +30,7 @@ const translate = new Translate({
 export default translate;
 ```
 
+### TranslateSpawn
 ```
 import { TranslateSpawn } from '@ewb/react-translate';
 
@@ -42,6 +43,11 @@ function App() {
     )
 }
 ```
+
+### Files
+`words.json` & `texts.json` file needs to contain `{}` to load correctly.
+
+### Live edit server
 
 You also need to start a server in development environment.
 ```
