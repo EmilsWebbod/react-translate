@@ -6,8 +6,8 @@ import TranslateComponent from './TranslateComponent';
 import { LocaleObject, Settings } from './utils/settings';
 
 interface Options {
-  fileServerURL: string;
-  validLocales: LocaleObject;
+  fileServerURL?: string;
+  validLocales?: LocaleObject;
   googleAPIKey?: string;
 }
 
