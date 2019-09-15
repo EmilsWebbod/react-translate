@@ -1,8 +1,23 @@
+import { VALID_LOCALES } from './google';
 
-interface LocaleObject {
-  [key: string]: string;
+export type LocaleObject = {
+  [key in VALID_LOCALES]?: string;
 }
 
-export const FILE_SERVER_URL = process.env.REACT_APP_FILE_SERVER_URL || 'http://localhost:3001';
-export const VALID_LOCALES: string[] = (process.env.REACT_APP_VALID_LOCALES || '').split(',');
-export const LOCALE_OBJECT = VALID_LOCALES.reduce<LocaleObject>((obj, x) => ({ ...obj, [x]: '' }), {});
+let settings: Settings;
+
+export class Settings {
+  
+  constructor(
+    public validLocales: LocaleObject = {},
+    public fileServerURL: string = 'http://localhost:3001',
+    public googleAPIKey?: string
+  ) {
+    if (settings) {
+      return settings;
+    }
+
+    settings = this;
+    return settings;
+  }
+}

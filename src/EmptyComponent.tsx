@@ -1,11 +1,13 @@
 import * as React from 'react';
-import { CSSProperties, FormEvent, useState } from 'react';
-import Translate, { Empty } from '@ewb/translate';
+import { CSSProperties, FormEvent, useMemo, useState } from 'react';
+import Translate, { Empty, Translations } from '@ewb/translate';
 import Button from './components/Button';
 import Flex from './components/Flex';
 import Input from './components/Input';
 import { saveTextsToFile, saveWordsToFile } from './utils/file';
-import { LOCALE_OBJECT } from './utils/settings';
+import Suggestions from './components/Suggestions';
+import { Settings } from './utils/settings';
+import { VALID_LOCALES } from './utils/google';
 
 interface EmptyProps {
   translate: Translate;
@@ -26,31 +28,41 @@ export default function EmptyComponent({
   translate,
   empty
 }: EmptyProps) {
-  const [trans, setTrans] = useState(LOCALE_OBJECT);
+  const settings = new Settings();
+  const locales = settings.validLocales;
+  const [trans, setTrans] = useState<Translations>(
+    Object.keys(locales).reduce((obj, x) => ({ ...obj, [x]: '' }), {})
+  );
   const [busy, setBusy] = useState(false);
+  
+  const suggestions = useMemo(() => empty.suggestions(), []);
   
   return (
     <form style={style} onSubmit={handleSave}>
       <Flex flexDirection="column" justifyContent="space-between" minHeight="200px">
-        <Flex>
-          <h4 style={{ margin: 0 }}>Add: {empty.addWord}</h4>
-        </Flex>
+        <h4 style={{ margin: 0 }}>Add: {empty.addWord}</h4>
         
-        {Object.keys(trans).map(x => (
+        {Object.keys(locales).map((x) => (
           <Input
-            label={x}
+            label={locales[x as VALID_LOCALES] || ''}
             key={x}
             value={trans[x]}
-            onChange={e => {
-              setTrans({...trans, [x]: e.target.value });
+            onChange={value => {
+              setTrans({...trans, [x]: value });
             }}
             required
+            googleTranslate={{
+              source: translate.defaultLocale as VALID_LOCALES,
+              target: x as VALID_LOCALES,
+              word: empty.addWord
+            }}
           />
         ))}
         <Flex justifyContent="flex-end">
           <Button disabled={busy}>{busy ? 'Busy...' : 'Add'}</Button>
         </Flex>
       </Flex>
+      <Suggestions suggestions={suggestions}/>
     </form>
   );
   

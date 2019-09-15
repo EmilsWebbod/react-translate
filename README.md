@@ -5,13 +5,22 @@ Uses the [@ewb/translate](https://github.com/EmilsWebbod/react-translate) librar
 ## Setup
 
 ```
-import Translate, { handleNoMatch, handleNoTranslation } from '@ewb/react-translate';
-import words from '../public/words.json';
-import texts from '../public/texts.json';
+import reactTranslate, { handleNoMatch, handleNoTranslation } from '@ewb/react-translate';
+import words from './words.json';
+import texts from './texts.json';
+
+const Translate = reactTranslate({
+  fileServerURL: 'http://localhost:3001',
+  validLocales: {
+    'no': 'Norwegian', // Norwegian is just a label for popup
+    'sv': 'Swedish'
+  },
+  googleAPIKey: '...'
+});
 
 const translate = new Translate({
     defaultLocale: 'en',
-    locale: 'no-nb',
+    locale: 'no',
     words: words,
     texts: texts,
     noWord: handleNoWord,
@@ -53,3 +62,7 @@ You dont need `handleNoMatch` and `handleNoTranslation` function in production m
 App will not crash if there is no translation. Only give you N/W or N/T of not found.
 
 You can also skip `TranslateSpawn`
+
+## Google supported Language locale (ISO-639-1 Code)
+If you want to use the google translation library you have to use locales in this list
+[Supported google api lang](https://cloud.google.com/translate/docs/languages)
