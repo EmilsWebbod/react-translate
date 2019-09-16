@@ -1,6 +1,7 @@
 # React translate
 
-Uses the [@ewb/translate](https://github.com/EmilsWebbod/translate) library in the background to translate words and texts.
+Uses the [@ewb/translate](https://github.com/EmilsWebbod/translate) library in the background to translate words and texts.  
+Can be used in combination with [@ewb/translate-minify](https://github.com/EmilsWebbod/translate-minify) in production.
 
 ## Setup
 
@@ -31,6 +32,7 @@ export default translate;
 ```
 
 ### TranslateSpawn
+This is needed for spawning the GUI
 ```
 import { TranslateSpawn } from '@ewb/react-translate';
 

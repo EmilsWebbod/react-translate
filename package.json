@@ -60,6 +60,6 @@
     "react-dom": "^16.9.0"
   },
   "dependencies": {
-    "@ewb/translate": "^1.1.0"
+    "@ewb/translate": "^1.1.3"
   }
 }
