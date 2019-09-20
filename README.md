@@ -2,6 +2,13 @@
 
 Uses the [@ewb/translate](https://github.com/EmilsWebbod/translate) library in the background to translate words and texts.
 
+## Install
+```
+yarn add @ewb/react-translate
+
+npm install -s @ewb/react-translate
+```
+
 ## Setup
 
 ```
@@ -61,6 +68,7 @@ PORT is default 3001
 ```
 translate.word('Word') // Ord
 translate.text('This is a sentence') // Dette er en setning
+translate.text('Text with {{var}}', { var: 'variable' }) // Tekst med variable
 ```
 
 ## Production
