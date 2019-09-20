@@ -904,10 +904,10 @@
   resolved "https://registry.yarnpkg.com/@csstools/normalize.css/-/normalize.css-9.0.1.tgz#c27b391d8457d1e893f1eddeaf5e5412d12ffbb5"
   integrity sha512-6It2EVfGskxZCQhuykrfnALg7oVeiI6KclWSmGDqB0AiInVrTGB9Jp9i4/Ad21u9Jde/voVQz6eFX/eSg/UsPA==
 
-"@ewb/translate@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@ewb/translate/-/translate-1.1.0.tgz#495885fcfde7e63bfe97290b002c9e5b33bac9a1"
-  integrity sha512-i+8Udh3R3+rpKMUb0bcB49IDkX0Mpnm/+2KD0xhbdTIxZxjPfv72bBhdpKBXK1uElJR8Tt5SsDU19beO7WU46w==
+"@ewb/translate@^1.1.3":
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/@ewb/translate/-/translate-1.1.3.tgz#feebf8f5c374326d34afe3e7068e512be71cfc6d"
+  integrity sha512-skTJ6bt6MH1g7FXl94MvVzLjgzaK4gsKU6GLSpPlPbPsQ9icvIBZWZJdz8S8PaCE4WVrLj/czkgH3ixdosUqcw==
 
 "@hapi/address@2.x.x":
   version "2.1.1"
