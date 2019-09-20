@@ -74,6 +74,8 @@ translate.text('Text with {{var}}', { var: 'variable' }) // Tekst med variable
 ```
 
 ## Production
+See folder `setup` on [github](https://github.com/EmilsWebbod/react-translate) on how to setup the development and production loading of packages.
+
 You dont need `handleNoMatch` and `handleNoTranslation` function in production mode.
 App will not crash if there is no translation. Only give you N/W or N/T of not found.
 
