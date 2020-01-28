@@ -2,11 +2,13 @@ import Translate from '@ewb/translate-minify';
 import words from './words.json';
 import texts from './texts.json';
 
-const translate = new Translate({
-  defaultLocale: 'en',
+const prodTranslate = new Translate({
+  defaultLocale: 'no',
   locale: 'no',
   words,
   texts
 });
 
-export default translate;
+const TranslateSpawnProd = () => null;
+
+export { prodTranslate, TranslateSpawnProd };

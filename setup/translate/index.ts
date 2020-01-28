@@ -1,12 +1,13 @@
-let translate;
+import { prodTranslate, TranslateSpawnProd } from './index.production';
 
-if (process.env.NODE_ENV === 'production') {
-  translate = require('./index.production');
-} else {
-  translate = require('./index.development');
+let TranslateSpawn = TranslateSpawnProd;
+let translate = prodTranslate;
+
+if (process.env.NODE_ENV === 'development') {
+  const devImport = require('./index.development');
+  TranslateSpawn = devImport.TranslateSpawnDev;
+  translate = devImport.devTranslate;
 }
 
-const TranslateSpawn = translate.TranslateSpawn;
-
-export default translate.default;
+export default translate;
 export { TranslateSpawn };
