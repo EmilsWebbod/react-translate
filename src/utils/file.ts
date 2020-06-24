@@ -10,16 +10,21 @@ export function saveTextsToFile(texts: WordTranslations) {
 }
 
 function post(path: string, data: any) {
-  return new Promise((res) => {
+  return new Promise((res, rej) => {
     const settings = new Settings();
     const url = settings.fileServerURL;
-    const xhr = new XMLHttpRequest();
     const form = new FormData();
     const blob = new Blob([JSON.stringify(data)],{type:'application/json'});
-  
+
     form.append(path, blob);
-    xhr.open("POST", `${url}/${path}`, true);
-    xhr.send(form);
-    xhr.addEventListener("loadend", res);
+    fetch(`${url}/${path}`, {
+      method: 'POST',
+      credentials: 'omit',
+      mode: 'no-cors',
+      body: form,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8'
+      },
+    }).then(res).catch(rej);
   })
 }

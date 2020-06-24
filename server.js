@@ -16,11 +16,18 @@ const storage = Multer.diskStorage({
 
 const upload = Multer({ storage });
 
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", 'http://localhost:3000');
+  next();
+})
+
 app.post('/words', upload.single('words'),  (req, res) => {
+  console.log('OK')
   res.sendStatus(200);
 });
 
 app.post('/texts', upload.single('texts'), (req, res) => {
+  console.log('OK')
   res.sendStatus(200);
 });
 
