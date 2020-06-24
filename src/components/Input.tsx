@@ -3,15 +3,15 @@ import { CSSProperties, useState } from 'react';
 import Flex from './Flex';
 import Button from './Button';
 import Error from './Error';
-import getGoogleTranslation, { VALID_LOCALES } from '../utils/google';
+import getGoogleTranslation, { VALID_GOOGLE_LOCALES } from '../utils/google';
 
 interface Props {
   value: string;
   label: string;
   onChange: (value: string) => void;
   googleTranslate?: {
-    source: VALID_LOCALES;
-    target: VALID_LOCALES;
+    source: VALID_GOOGLE_LOCALES;
+    target: VALID_GOOGLE_LOCALES;
     word: string;
   };
   required?: boolean;

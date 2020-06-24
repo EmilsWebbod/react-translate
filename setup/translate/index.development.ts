@@ -8,8 +8,8 @@ import texts from './texts.json';
 
 const Translate = reactTranslate({
   fileServerURL: process.env.REACT_APP_FILE_SERVER_URL,
-  validLocales: {
-    en: 'Engelsk'
+  locales: {
+    en: { label: 'Engelsk', googleLocale: 'en' }
   },
   googleAPIKey: process.env.REACT_APP_GOOGLE_API_KEY
 });

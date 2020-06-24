@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { CSSProperties, FormEvent, useState } from 'react';
-import Translate, { Branch, Translations } from '@ewb/translate';
+import Translate, { Branch, ISO_639_1, Translations } from '@ewb/translate';
 import Button from './components/Button';
 import Flex from './components/Flex';
-import Input from './components/Input';
 import { saveTextsToFile, saveWordsToFile } from './utils/file';
-import { Settings } from './utils/settings';
-import { VALID_LOCALES } from './utils/google';
+import { LocaleObjectValue, Settings } from './utils/settings';
+import TranslateInput from './components/TranslateInput';
+import { getApiTranslations } from './utils/api';
 
 interface EmptyProps {
   translate: Translate;
@@ -27,12 +27,14 @@ export default function TranslateComponent({
   translate,
   branch
 }: EmptyProps) {
+  const locale = translate.defaultLocale as ISO_639_1;
   const settings = new Settings();
-  const locales = settings.validLocales;
+  const locales = settings.locales;
   const [trans, setTrans] = useState<Translations>(
     Object.keys(locales).reduce((obj, x) => ({ ...obj, [x]: '' }), {})
   );
   const [busy, setBusy] = useState(false);
+  const localeKeys = Object.keys(locales) as Array<ISO_639_1>;
   
   return (
     <form style={style} onSubmit={handleSave}>
@@ -40,24 +42,25 @@ export default function TranslateComponent({
         <Flex>
           <h4 style={{ margin: 0 }}>Translate: {branch.word}</h4>
         </Flex>
-        
-        {Object.keys(locales).map(x => (
-          <Input
-            label={locales[x as VALID_LOCALES] || ''}
-            key={x}
-            value={trans[x]}
-            onChange={value => {
-              setTrans({...trans, [x]: value });
-            }}
-            required
-            googleTranslate={{
-              source: translate.defaultLocale as VALID_LOCALES,
-              target: x as VALID_LOCALES,
-              word: branch.word
-            }}
-          />
-        ))}
-        <Flex justifyContent="flex-end">
+        {localeKeys.map((x) => {
+          return (
+            <TranslateInput
+              translate={translate}
+              locale={locales[x] as LocaleObjectValue}
+              branch={branch}
+              index={x}
+              key={x}
+              onChange={value => {
+                setTrans({...trans, [x]: value });
+              }}
+              value={trans[x]}
+            />
+          )
+        })}
+        <Flex justifyContent="space-between">
+          <div>{settings.apiServer && (
+            <Button type="button" disabled={busy} onClick={checkApi}>Fra API</Button>
+          )}</div>
           <Button disabled={busy}>{busy ? 'Busy...' : 'Add'}</Button>
         </Flex>
       </Flex>
@@ -70,7 +73,11 @@ export default function TranslateComponent({
       branch.addTranslation(x, trans[x]);
     });
     setBusy(true);
-    
+
+    if (settings.apiServer) {
+      await branch.toApi(translate.defaultLocale as ISO_639_1);
+    }
+
     if (branch.sentence) {
       const texts = translate.exportTexts();
       await saveTextsToFile(texts);
@@ -80,6 +87,17 @@ export default function TranslateComponent({
     }
     
     setBusy(false);
+  }
+
+  async function checkApi() {
+    try {
+      setBusy(true);
+      const translations = await getApiTranslations(branch, locale, localeKeys);
+      setTrans(translations);
+      setBusy(false);
+    } catch (e) {
+      console.warn('No translations');
+    }
   }
 }
 

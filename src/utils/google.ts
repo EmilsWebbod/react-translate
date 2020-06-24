@@ -1,7 +1,6 @@
-import * as gt from 'google-translate';
 import { Settings } from './settings';
 
-export type VALID_LOCALES = 'af'
+export type VALID_GOOGLE_LOCALES = 'af'
   | 'sq'
   | 'am'
   | 'ar'
@@ -108,15 +107,14 @@ export type VALID_LOCALES = 'af'
   | 'yo'
   | 'zu';
 
-export default function getGoogleTranslation(sourceLocale: VALID_LOCALES, targetLocale: VALID_LOCALES, translate: string) {
+export default function getGoogleTranslation(sourceLocale: VALID_GOOGLE_LOCALES, targetLocale: VALID_GOOGLE_LOCALES, translate: string) {
   return new Promise<string>((res, rej) => {
     const settings = new Settings();
     
     if (!settings.googleAPIKey) {
       return rej('No google api key');
     }
-    
-    const googleTranslate = gt(settings.googleAPIKey);
+    const googleTranslate = require('google-translate').gt(settings.googleAPIKey);
     googleTranslate.translate(translate, sourceLocale, targetLocale, (err: any, trans: any) => {
       if (!err) {
         res(trans.translatedText);

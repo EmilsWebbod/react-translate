@@ -19,9 +19,10 @@ import texts from './texts.json';
 
 const Translate = reactTranslate({
   fileServerURL: 'http://localhost:3001',
-  validLocales: {
-    'no': 'Norwegian', // Norwegian is just a label for popup
-    'sv': 'Swedish'
+  locales: {
+    // Key with typeof ISO-639-1
+    nb: { label: 'Norwegian', googleLocale: 'no' },
+    sv: { label: 'Swedish' }
   },
   googleAPIKey: '...'
 });
@@ -32,7 +33,7 @@ const translate = new Translate({
     words: words,
     texts: texts,
     noWord: handleNoWord,
-    noTranslation: handleNoTranlnslation
+    noTranslation: handleNoTranslation
 })
 
 export default translate;
@@ -68,9 +69,9 @@ PORT is default 3001
 
 ## Translate
 ```
-translate.word('Word') // Ord
-translate.text('This is a sentence') // Dette er en setning
-translate.text('Text with {{var}}', { var: 'variable' }) // Tekst med variable
+translate.word('Word') // "Ord"
+translate.text('This is a sentence') // "Dette er en setning"
+translate.text('Text with {{var}}', { var: 'variable' }) // "Tekst med variable"
 ```
 
 ## Production

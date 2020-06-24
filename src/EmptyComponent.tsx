@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { CSSProperties, FormEvent, useMemo, useState } from 'react';
-import Translate, { Empty, Translations } from '@ewb/translate';
+import Translate, { Empty, ISO_639_1, Translations } from '@ewb/translate';
 import Button from './components/Button';
 import Flex from './components/Flex';
-import Input from './components/Input';
 import { saveTextsToFile, saveWordsToFile } from './utils/file';
 import Suggestions from './components/Suggestions';
-import { Settings } from './utils/settings';
-import { VALID_LOCALES } from './utils/google';
+import { LocaleObjectValue, Settings } from './utils/settings';
+import TranslateInput from './components/TranslateInput';
+import { getApiTranslations } from './utils/api';
 
 interface EmptyProps {
   translate: Translate;
@@ -28,37 +28,40 @@ export default function EmptyComponent({
   translate,
   empty
 }: EmptyProps) {
+  const locale = translate.defaultLocale as ISO_639_1;
   const settings = new Settings();
-  const locales = settings.validLocales;
+  const locales = settings.locales;
   const [trans, setTrans] = useState<Translations>(
     Object.keys(locales).reduce((obj, x) => ({ ...obj, [x]: '' }), {})
   );
   const [busy, setBusy] = useState(false);
   
   const suggestions = useMemo(() => empty.suggestions(), []);
+  const localeKeys = Object.keys(locales) as Array<ISO_639_1>;
   
   return (
     <form style={style} onSubmit={handleSave}>
       <Flex flexDirection="column" justifyContent="space-between" minHeight="200px">
-        <h4 style={{ margin: 0 }}>Add: {empty.addWord}</h4>
-        
-        {Object.keys(locales).map((x) => (
-          <Input
-            label={locales[x as VALID_LOCALES] || ''}
-            key={x}
-            value={trans[x]}
-            onChange={value => {
-              setTrans({...trans, [x]: value });
-            }}
-            required
-            googleTranslate={{
-              source: translate.defaultLocale as VALID_LOCALES,
-              target: x as VALID_LOCALES,
-              word: empty.addWord
-            }}
-          />
-        ))}
-        <Flex justifyContent="flex-end">
+        <h4 style={{ margin: 0 }}>Add: {empty.word}</h4>
+        {localeKeys.map((x) => {
+          return (
+            <TranslateInput
+              translate={translate}
+              branch={empty}
+              locale={locales[x] as LocaleObjectValue}
+              index={x}
+              key={x}
+              onChange={value => {
+                setTrans({...trans, [x]: value });
+              }}
+              value={trans[x]}
+            />
+          )
+        })}
+        <Flex justifyContent="space-between">
+          <div>{settings.apiServer && (
+            <Button type="button" disabled={busy} onClick={checkApi}>Fra API</Button>
+          )}</div>
           <Button disabled={busy}>{busy ? 'Busy...' : 'Add'}</Button>
         </Flex>
       </Flex>
@@ -70,7 +73,11 @@ export default function EmptyComponent({
     e.preventDefault();
     empty.add(trans);
     setBusy(true);
-    
+
+    if (settings.apiServer) {
+      await empty.toApi(locale);
+    }
+
     if (empty.isTreeText) {
       const texts = translate.exportTexts();
       await saveTextsToFile(texts);
@@ -78,8 +85,19 @@ export default function EmptyComponent({
       const words = translate.exportWords();
       await saveWordsToFile(words);
     }
-    
+
     setBusy(false);
+  }
+
+  async function checkApi() {
+    try {
+      setBusy(true);
+      const translations = await getApiTranslations(empty, locale, localeKeys);
+      setTrans(translations);
+      setBusy(false);
+    } catch (e) {
+      console.warn('No translations');
+    }
   }
 }
 

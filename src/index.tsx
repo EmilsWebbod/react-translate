@@ -7,7 +7,8 @@ import { LocaleObject, Settings } from './utils/settings';
 
 interface Options {
   fileServerURL?: string;
-  validLocales?: LocaleObject;
+  apiServer?: boolean;
+  locales?: LocaleObject;
   googleAPIKey?: string;
 }
 
@@ -34,11 +35,12 @@ function TranslateSpawn() {
 }
 
 export default ({
-  validLocales,
+  locales,
   fileServerURL,
-  googleAPIKey
+  googleAPIKey,
+  apiServer
 }: Options) => {
-  new Settings(validLocales, fileServerURL, googleAPIKey);
+  new Settings(locales, fileServerURL, googleAPIKey, apiServer);
   
   return Translate;
 }
