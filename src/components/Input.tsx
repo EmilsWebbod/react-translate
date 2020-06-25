@@ -26,18 +26,19 @@ export default function Input({
 }: Props) {
   const [error, setError] = useState<string | null>(null);
   const style: CSSProperties = {
-  
+    flex: '1',
+    marginRight: '4px'
   };
   
   return (
     <Flex flexDirection="column">
+      <label>{label}</label>
       <Flex justifyContent="space-between">
-        <label>{label}</label>
+        <input value={value} onChange={e => onChange(e.target.value)} style={style} required={required} />
         <Button type="button" onClick={handleGoogleTranslate} small>
           Google translate
         </Button>
       </Flex>
-      <input value={value} onChange={e => onChange(e.target.value)} style={style} required={required} />
       {error && <Error error={error} />}
     </Flex>
   );

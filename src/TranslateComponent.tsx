@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { CSSProperties, FormEvent, useState } from 'react';
+import { CSSProperties, FormEvent, useEffect, useState } from 'react';
 import Translate, { Branch, ISO_639_1, Translations } from '@ewb/translate';
 import Button from './components/Button';
 import Flex from './components/Flex';
@@ -30,11 +30,15 @@ export default function TranslateComponent({
   const locale = translate.defaultLocale as ISO_639_1;
   const settings = new Settings();
   const locales = settings.locales;
+  const localeKeys = Object.keys(locales) as Array<ISO_639_1>;
+
   const [trans, setTrans] = useState<Translations>(
-    Object.keys(locales).reduce((obj, x) => ({ ...obj, [x]: '' }), {})
+    localeKeys.reduce((obj, x) => ({ ...obj, [x]: branch.translations[x] || '' }), {})
   );
   const [busy, setBusy] = useState(false);
-  const localeKeys = Object.keys(locales) as Array<ISO_639_1>;
+  const [apiTranslations, setApiTranslations] = useState<Translations>({});
+
+  useEffect(() => {checkApi().then();}, []);
   
   return (
     <form style={style} onSubmit={handleSave}>
@@ -54,13 +58,11 @@ export default function TranslateComponent({
                 setTrans({...trans, [x]: value });
               }}
               value={trans[x]}
+              translations={apiTranslations[x] ? apiTranslations[x].split(',') : []}
             />
           )
         })}
-        <Flex justifyContent="space-between">
-          <div>{settings.apiServer && (
-            <Button type="button" disabled={busy} onClick={checkApi}>Fra API</Button>
-          )}</div>
+        <Flex justifyContent="flex-end">
           <Button disabled={busy}>{busy ? 'Busy...' : 'Add'}</Button>
         </Flex>
       </Flex>
@@ -69,16 +71,17 @@ export default function TranslateComponent({
   
   async function handleSave(e: FormEvent) {
     e.preventDefault();
-    Object.keys(trans).forEach(x => {
-      branch.addTranslation(x, trans[x]);
-    });
+    branch.addTranslations(trans);
     setBusy(true);
-
     try {
       if (settings.apiServer) {
         await branch.toApi(translate.defaultLocale as ISO_639_1);
       }
+    } catch (e) {
+      console.error(e);
+    }
 
+    try {
       if (branch.sentence) {
         const texts = translate.exportTexts();
         await saveTextsToFile(texts);
@@ -87,7 +90,6 @@ export default function TranslateComponent({
         await saveWordsToFile(words);
       }
     } catch (e) {
-      alert(JSON.stringify(e));
       console.error(e);
     }
 
@@ -99,7 +101,11 @@ export default function TranslateComponent({
     setBusy(true);
     try {
       const translations = await getApiTranslations(branch, locale, localeKeys);
-      setTrans(translations);
+      await setTrans(localeKeys.reduce((obj, key) => ({
+        ...obj,
+        key: translations[key] ? translations[key].split(',')[0] : trans[key]
+      }), {}))
+      setApiTranslations(translations);
     } catch (e) {
       console.warn('No translations');
     }

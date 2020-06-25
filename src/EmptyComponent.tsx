@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { CSSProperties, FormEvent, useMemo, useState } from 'react';
+import { CSSProperties, FormEvent, useEffect, useMemo, useState } from 'react';
 import Translate, { Empty, ISO_639_1, Translations } from '@ewb/translate';
 import Button from './components/Button';
 import Flex from './components/Flex';
@@ -35,9 +35,12 @@ export default function EmptyComponent({
     Object.keys(locales).reduce((obj, x) => ({ ...obj, [x]: '' }), {})
   );
   const [busy, setBusy] = useState(false);
-  
+
   const suggestions = useMemo(() => empty.suggestions(), []);
+  const [apiTranslations, setApiTranslations] = useState<Translations>({});
   const localeKeys = Object.keys(locales) as Array<ISO_639_1>;
+
+  useEffect(() => {checkApi().then();}, []);
   
   return (
     <form style={style} onSubmit={handleSave}>
@@ -55,13 +58,11 @@ export default function EmptyComponent({
                 setTrans({...trans, [x]: value });
               }}
               value={trans[x]}
+              translations={apiTranslations[x] ? apiTranslations[x].split(',') : []}
             />
           )
         })}
-        <Flex justifyContent="space-between">
-          <div>{settings.apiServer && (
-            <Button type="button" disabled={busy} onClick={checkApi}>Fra API</Button>
-          )}</div>
+        <Flex justifyContent="flex-end">
           <Button disabled={busy}>{busy ? 'Busy...' : 'Add'}</Button>
         </Flex>
       </Flex>
@@ -78,6 +79,11 @@ export default function EmptyComponent({
       if (settings.apiServer) {
         await empty.toApi(locale);
       }
+    } catch (e) {
+
+    }
+
+    try {
 
       if (empty.isTreeText) {
         const texts = translate.exportTexts();
@@ -87,7 +93,6 @@ export default function EmptyComponent({
         await saveWordsToFile(words);
       }
     } catch (e) {
-      alert(JSON.stringify(e));
       console.error(e);
     }
 
@@ -98,7 +103,11 @@ export default function EmptyComponent({
     setBusy(true);
     try {
       const translations = await getApiTranslations(empty, locale, localeKeys);
-      setTrans(translations);
+      await setTrans(localeKeys.reduce((obj, key) => ({
+        ...obj,
+        [key]: translations[key] ? translations[key].split(',')[0] : trans[key]
+      }), {}))
+      setApiTranslations(translations);
     } catch (e) {
       console.warn('No translations');
     }

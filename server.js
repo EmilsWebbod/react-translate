@@ -22,15 +22,13 @@ app.use((req, res, next) => {
 })
 
 app.post('/words', upload.single('words'),  (req, res) => {
-  console.log('OK')
   res.sendStatus(200);
 });
 
 app.post('/texts', upload.single('texts'), (req, res) => {
-  console.log('OK')
   res.sendStatus(200);
 });
 
 app.listen(PORT, () => {
-  console.log(`Files server listening on port ${PORT} and saving files (words.json & texts.json) to ${DIST}`);
+  console.info(`Files server listening on port ${PORT} and saving files (words.json & texts.json) to ${DIST}`);
 });
