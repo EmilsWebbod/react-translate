@@ -108,13 +108,14 @@ export type VALID_GOOGLE_LOCALES = 'af'
   | 'zu';
 
 export default function getGoogleTranslation(sourceLocale: VALID_GOOGLE_LOCALES, targetLocale: VALID_GOOGLE_LOCALES, translate: string) {
-  return new Promise<string>((res, rej) => {
+  return new Promise<string>(async (res, rej) => {
     const settings = new Settings();
     
     if (!settings.googleAPIKey) {
       return rej('No google api key');
     }
-    const googleTranslate = require('google-translate').gt(settings.googleAPIKey);
+    const google = await import('google-translate');
+    const googleTranslate = google(settings.googleAPIKey);
     googleTranslate.translate(translate, sourceLocale, targetLocale, (err: any, trans: any) => {
       if (!err) {
         res(trans.translatedText);

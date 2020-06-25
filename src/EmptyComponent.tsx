@@ -74,30 +74,35 @@ export default function EmptyComponent({
     empty.add(trans);
     setBusy(true);
 
-    if (settings.apiServer) {
-      await empty.toApi(locale);
-    }
+    try {
+      if (settings.apiServer) {
+        await empty.toApi(locale);
+      }
 
-    if (empty.isTreeText) {
-      const texts = translate.exportTexts();
-      await saveTextsToFile(texts);
-    } else {
-      const words = translate.exportWords();
-      await saveWordsToFile(words);
+      if (empty.isTreeText) {
+        const texts = translate.exportTexts();
+        await saveTextsToFile(texts);
+      } else {
+        const words = translate.exportWords();
+        await saveWordsToFile(words);
+      }
+    } catch (e) {
+      alert(JSON.stringify(e));
+      console.error(e);
     }
 
     setBusy(false);
   }
 
   async function checkApi() {
+    setBusy(true);
     try {
-      setBusy(true);
       const translations = await getApiTranslations(empty, locale, localeKeys);
       setTrans(translations);
-      setBusy(false);
     } catch (e) {
       console.warn('No translations');
     }
+    setBusy(false);
   }
 }
 

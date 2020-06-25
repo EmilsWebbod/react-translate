@@ -55,7 +55,7 @@ export default function Input({
       );
       onChange(translation);
     } catch (e) {
-      setError(e);
+      setError(e.message);
     }
   }
 }

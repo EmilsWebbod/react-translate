@@ -74,30 +74,36 @@ export default function TranslateComponent({
     });
     setBusy(true);
 
-    if (settings.apiServer) {
-      await branch.toApi(translate.defaultLocale as ISO_639_1);
+    try {
+      if (settings.apiServer) {
+        await branch.toApi(translate.defaultLocale as ISO_639_1);
+      }
+
+      if (branch.sentence) {
+        const texts = translate.exportTexts();
+        await saveTextsToFile(texts);
+      } else {
+        const words = translate.exportWords();
+        await saveWordsToFile(words);
+      }
+    } catch (e) {
+      alert(JSON.stringify(e));
+      console.error(e);
     }
 
-    if (branch.sentence) {
-      const texts = translate.exportTexts();
-      await saveTextsToFile(texts);
-    } else {
-      const words = translate.exportWords();
-      await saveWordsToFile(words);
-    }
     
     setBusy(false);
   }
 
   async function checkApi() {
+    setBusy(true);
     try {
-      setBusy(true);
       const translations = await getApiTranslations(branch, locale, localeKeys);
       setTrans(translations);
-      setBusy(false);
     } catch (e) {
       console.warn('No translations');
     }
+    setBusy(false);
   }
 }
 

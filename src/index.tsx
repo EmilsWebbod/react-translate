@@ -1,13 +1,13 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import Translate, { Branch, Empty } from '@ewb/translate';
+import Translate, { Branch, Empty, TranslationApi } from '@ewb/translate';
 import EmptyComponent from './EmptyComponent';
 import TranslateComponent from './TranslateComponent';
 import { LocaleObject, Settings } from './utils/settings';
 
 interface Options {
   fileServerURL?: string;
-  apiServer?: boolean;
+  apiServer?: string;
   locales?: LocaleObject;
   googleAPIKey?: string;
 }
@@ -38,9 +38,13 @@ export default ({
   locales,
   fileServerURL,
   googleAPIKey,
-  apiServer
+  apiServer,
 }: Options) => {
-  new Settings(locales, fileServerURL, googleAPIKey, apiServer);
+  new Settings(locales, fileServerURL, googleAPIKey, Boolean(apiServer));
+
+  if (apiServer) {
+    new TranslationApi(apiServer);
+  }
   
   return Translate;
 }
