@@ -34,7 +34,14 @@ export default function Input({
     <Flex flexDirection="column">
       <label>{label}</label>
       <Flex justifyContent="space-between">
-        <input value={value} onChange={e => onChange(e.target.value)} style={style} required={required} />
+        <textarea
+          value={value || ''}
+          onChange={e => {
+            onChange(e.target.value)
+          }}
+          style={style}
+          required={required}
+        />
         <Button type="button" onClick={handleGoogleTranslate} small>
           Google translate
         </Button>

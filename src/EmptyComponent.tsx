@@ -21,7 +21,9 @@ const style: CSSProperties = {
   right: '25px',
   bottom: '25px',
   border: '1px solid black',
-  padding: '1rem'
+  padding: '1rem',
+  background: 'white',
+  zIndex: 1000000000
 };
 
 export default function EmptyComponent({
