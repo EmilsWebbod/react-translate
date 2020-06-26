@@ -1,9 +1,12 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import Translate, { Branch, Empty, TranslationApi } from '@ewb/translate';
-import EmptyComponent from './EmptyComponent';
-import TranslateComponent from './TranslateComponent';
+import Translate, { Branch, Empty, TranslateOptions, TranslationApi } from '@ewb/translate';
+
 import { LocaleObject, Settings } from './utils/settings';
+import { ReactTranslateProvider } from './context/ReactTranslateContext';
+import MenuFab from './core/MenuFab';
+import Menu from './core/Menu';
+import Content from './core/Content';
 
 interface Options {
   fileServerURL?: string;
@@ -13,25 +16,22 @@ interface Options {
 }
 
 function handleNoMatch(translate: Translate, empty: Empty) {
-  setTimeout(() => {
-    const container = document.getElementById('translate-spawn');
-    if (container) {
-      ReactDOM.render(<EmptyComponent translate={translate} empty={empty} />, container);
-    }
-  }, 100)
+  Settings.of().addTranslation(translate, empty);
 }
 
 function handleNoTranslation(translate: Translate, branch: Branch) {
-  setTimeout(() => {
-    const container = document.getElementById('translate-spawn');
-    if (container) {
-      ReactDOM.render(<TranslateComponent translate={translate} branch={branch} />, container);
-    }
-  }, 100)
+  Settings.of().addTranslation(translate, branch);
 }
 
-function TranslateSpawn() {
-  return <div id="translate-spawn" />;
+function SpawnMenu() {
+  const [show, setShow] = React.useState(false);
+  return (
+    <ReactTranslateProvider>
+      <MenuFab show={show} onChange={setShow} />
+      <Menu show={show} onClose={() => setShow(false)} />
+      <Content />
+    </ReactTranslateProvider>
+  )
 }
 
 export default ({
@@ -40,12 +40,23 @@ export default ({
   googleAPIKey,
   apiServer,
 }: Options) => {
-  new Settings(locales, fileServerURL, googleAPIKey, Boolean(apiServer));
+  const settings = new Settings(locales, fileServerURL, googleAPIKey, Boolean(apiServer));
 
   if (apiServer) {
     new TranslationApi(apiServer);
   }
+
+  if (typeof document !== 'undefined') {
+    const translateElem = document.createElement('div');
+    translateElem.id = 'react-translate';
+    document.body.appendChild(translateElem)
+    ReactDOM.render(<SpawnMenu />, translateElem);
+  }
   
-  return Translate;
+  return (props: TranslateOptions) => {
+    const translate = new Translate(props);
+    settings.setTranslate(translate);
+    return translate;
+  };
 }
-export { TranslateSpawn, handleNoMatch, handleNoTranslation };
+export { handleNoMatch, handleNoTranslation };

@@ -1,34 +1,47 @@
 import * as React from 'react';
-import { CSSProperties } from 'react';
-import Flex from './Flex';
+import Grid from '@material-ui/core/Grid';
+import { Typography } from '@material-ui/core';
+import Chip from '@material-ui/core/Chip';
+import Button from '@material-ui/core/Button';
+import MoreIcon from '@material-ui/icons/More';
 
 interface Props {
   suggestions: string;
 }
 
+const INCREMENT = 5;
+
 export default function Suggestions({
   suggestions
 }: Props) {
-  
-  const style: CSSProperties = {
-    position: 'absolute',
-    top: '-225px',
-    left: 0,
-    width: '400px',
-    minHeight: '100px',
-    border: '1px solid black',
-    borderRadius: '10px',
-    padding: '1rem',
-    background: 'white',
-    zIndex: 100000000000
-  };
-  
+  const [max, setMax] = React.useState(10)
+
+  const allSuggestions = suggestions.split(',');
+  const length = allSuggestions.length;
+  const of = length > max ? max : length;
+
   return suggestions ? (
-    <div style={style}>
-      <Flex flexDirection="column">
-        <strong>Suggestions:</strong>
-        { suggestions.slice(0, 250) }
-      </Flex>
-    </div>
+    <Grid container direction="column">
+      <Typography variant="subtitle1">Suggestions {of}/{length}:</Typography>
+      <Grid container spacing={1}>
+        {allSuggestions.slice(0, max).map((suggestion, i) => (
+          <Grid item key={i}>
+            <Chip  label={suggestion} variant="outlined"/>
+          </Grid>
+        ))}
+        {of < length && (
+          <Grid item>
+            <Button
+              variant="outlined"
+              color="secondary"
+              startIcon={<MoreIcon />}
+              size="small"
+              onClick={() => setMax(s => s + INCREMENT)}
+            >Mer</Button>
+          </Grid>
+        )}
+      </Grid>
+
+    </Grid>
   ) : <></>;
 }

@@ -1,9 +1,14 @@
 import * as React from 'react';
-import { CSSProperties, useState } from 'react';
-import Flex from './Flex';
-import Button from './Button';
-import Error from './Error';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import IconButton from '@material-ui/core/IconButton';
+import GTranslateIcon from '@material-ui/icons/GTranslate';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 import getGoogleTranslation, { VALID_GOOGLE_LOCALES } from '../utils/google';
+import { Alert } from '@material-ui/lab';
 
 interface Props {
   value: string;
@@ -24,46 +29,53 @@ export default function Input({
   onChange,
   required
 }: Props) {
-  const [error, setError] = useState<string | null>(null);
-  const style: CSSProperties = {
-    flex: '1',
-    marginRight: '4px'
-  };
-  
+  const [busy, setBusy] = React.useState(false);
+  const [error, setError] = React.useState<string>('');
+
   return (
-    <Flex flexDirection="column">
-      <label>{label}</label>
-      <Flex justifyContent="space-between">
-        <textarea
-          value={value || ''}
-          onChange={e => {
-            onChange(e.target.value)
-          }}
-          style={style}
-          required={required}
-        />
-        <Button type="button" onClick={handleGoogleTranslate} small>
-          Google translate
-        </Button>
-      </Flex>
-      {error && <Error error={error} />}
-    </Flex>
-  );
+    <>
+    <FormControl variant="outlined">
+      <InputLabel htmlFor={label} color="secondary">{label}</InputLabel>
+      <OutlinedInput
+        id={label}
+        type="text"
+        color="secondary"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        endAdornment={googleTranslate ? (
+          <InputAdornment position="end">
+            <IconButton onClick={handleGoogleTranslate} color="default">
+              {busy ? <CircularProgress size={25} color="secondary" /> : <GTranslateIcon />}
+            </IconButton>
+          </InputAdornment>
+        ) : undefined}
+        required={required}
+        labelWidth={150}
+      />
+    </FormControl>
+    {error && <Alert severity="error">{error}</Alert>}
+    </>
+  )
   
   async function handleGoogleTranslate() {
     if (!googleTranslate) {
       return;
     }
-    
+
+    const timer = setTimeout(() => {
+      setBusy(true);
+    }, 150)
     try {
       const translation = await getGoogleTranslation(
         googleTranslate.source,
         googleTranslate.target,
         googleTranslate.word
       );
-      onChange(translation);
+      onChange(translation.charAt(0).toUpperCase() + translation.slice(1));
     } catch (e) {
       setError(e.message);
     }
+    clearTimeout(timer);
+    setBusy(false);
   }
 }
