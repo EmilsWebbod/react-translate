@@ -1,7 +1,7 @@
 # React translate
 
-Uses the [@ewb/translate](https://github.com/EmilsWebbod/translate) library in the background to translate words and texts.  
-Can be used in combination with [@ewb/translate-minify](https://github.com/EmilsWebbod/translate-minify) in production.
+Uses the [@ewb/translate](https://www.npmjs.com/package/@ewb/translate) library in the background to translate words and texts.  
+Can be used in combination with [@ewb/translate-minify](https://www.npmjs.com/package/@ewb/translate-minify) in production.
 
 ## Install
 ```
@@ -24,7 +24,8 @@ const Translate = reactTranslate({
     nb: { label: 'Norwegian', googleLocale: 'no' },
     sv: { label: 'Swedish' }
   },
-  googleAPIKey: '...'
+  googleAPIKey: '...',
+  apiServer: '...' // API Server
 });
 
 const translate = new Translate({
@@ -37,21 +38,6 @@ const translate = new Translate({
 })
 
 export default translate;
-```
-
-### TranslateSpawn
-This is needed for spawning the GUI
-```
-import { TranslateSpawn } from '@ewb/react-translate';
-
-function App() {
-    return (
-        <div id="App">
-            ... Your app here
-            <TranslateSpawn />
-        </div>
-    )
-}
 ```
 
 ### Files
@@ -73,6 +59,10 @@ translate.word('Word') // "Ord"
 translate.text('This is a sentence') // "Dette er en setning"
 translate.text('Text with {{var}}', { var: 'variable' }) // "Tekst med variable"
 ```
+
+## API Server
+Currently working on translation server that can be connected. Will fetch translation automatically and give options if found multiple  
+Send me a message if you want to try it out. I want to build the translation, but have som kinks to work out.
 
 ## Production
 See folder `setup` on [github](https://github.com/EmilsWebbod/react-translate) on how to setup the development and production loading of packages.

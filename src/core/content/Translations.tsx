@@ -36,7 +36,7 @@ export default function Translations() {
       item={item}
       onTranslated={onTranslated}
     >
-      <Translate />
+      <Translate last={state.translations.length === 1} />
     </TranslateProvider>
   )
 }

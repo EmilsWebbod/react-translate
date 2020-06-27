@@ -32,7 +32,11 @@ export default function List() {
   const [state, setState] = React.useContext(ReactTranslateContext);
   const [busy, setBusy] = React.useState(false);
   const [active, setActive] = React.useState(0);
-  const [deleteList, setDelete] = React.useState<Set<string>>(new Set())
+  const [deleteList, setDelete] = React.useState<{
+    words: Set<string>,
+    texts: Set<string>
+  }>({ words: new Set(), texts: new Set() })
+  const deleteSize = deleteList.texts.size + deleteList.words.size;
 
   const words = translate.exportWords();
   const texts = translate.exportTexts();
@@ -41,25 +45,31 @@ export default function List() {
     setActive(newValue);
   }, []);
 
-  const removeDelete = React.useCallback((word) => {
+  const removeDelete = React.useCallback((type: 'words' | 'texts') => (word: string) => {
     setDelete(s => {
-      s.delete(word);
-      return new Set([...s]);
+      s[type].delete(word);
+      return { ...s, [type]: new Set([...s[type]]) };
     });
   }, []);
 
-  const addDelete = React.useCallback((word: string) => {
+  const addDelete = React.useCallback((type: 'words' | 'texts') => (word: string) => {
     setDelete(s => {
-      s.add(word);
-      return new Set([...s]);
+      s[type].add(word);
+      return { ...s, [type]: new Set([...s[type]]) };
     })
   }, []);
 
   const onDelete = React.useCallback(async () => {
-    if (confirm(`Are you sure you want to delete ${deleteList.size} items? (Window will refresh)`)) {
+    if (confirm(`Are you sure you want to delete ${deleteList.words.size + deleteList.texts.size} items? (Window will refresh)`)) {
       setBusy(true)
-      for(const word of deleteList) {
+      for(const word of deleteList.words) {
         const branch = translate.getBranch(word)
+        if (branch) {
+          branch.isWord = false;
+        }
+      }
+      for(const word of deleteList.texts) {
+        const branch = translate.getBranch(word, true)
         if (branch) {
           branch.isWord = false;
         }
@@ -71,15 +81,8 @@ export default function List() {
   }, [deleteList]);
 
   const onClear = React.useCallback(() => {
-    setDelete(new Set());
+    setDelete({ texts: new Set(), words: new Set() });
   }, [])
-
-  if (busy) return (
-    <>
-      <LinearProgress color="secondary" />
-      Please wait... Deleting items and refreshing.
-    </>
-  );
 
   const onEdit = React.useCallback(() => {
     setState(s => ({ ...s, show: 'translation' }))
@@ -87,6 +90,12 @@ export default function List() {
 
   return (
     <DialogContent>
+      {busy && (
+        <>
+          <LinearProgress color="secondary" />
+          Please wait... Deleting items and refreshing.
+        </>
+      )}
       <Grid container justify="space-between" alignItems="center">
         <Grid item>
           <Grid container spacing={1} alignItems="center">
@@ -104,20 +113,20 @@ export default function List() {
                 startIcon={<EditIcon />}
                 onClick={onEdit}
                 color="primary"
-                disabled={state.translations.length === 0}
+                disabled={busy || state.translations.length === 0}
               >Edit translations</Button>
             </Grid>
           </Grid>
         </Grid>
-        <Grid item justify="flex-end">
-          <Grid container spacing={1} alignItems="center">
+        <Grid item >
+          <Grid container spacing={1} alignItems="center" justify="flex-end">
             <Grid item>
               <Button
                 variant="contained"
                 startIcon={<BackspaceIcon />}
                 onClick={onClear}
                 color="primary"
-                disabled={deleteList.size === 0}
+                disabled={busy || deleteSize === 0}
               >Clear delete list</Button>
             </Grid>
             <Grid item>
@@ -126,8 +135,8 @@ export default function List() {
                 startIcon={<DeleteIcon />}
                 onClick={onDelete}
                 color="secondary"
-                disabled={deleteList.size === 0}
-              >Delete {deleteList.size} translations!</Button>
+                disabled={busy || deleteSize === 0}
+              >Delete {deleteSize} translations!</Button>
             </Grid>
           </Grid>
         </Grid>
@@ -139,16 +148,16 @@ export default function List() {
         </Tabs>
       </AppBar>
       {active === 0 && <TranslationTable
-        deleteList={deleteList}
+        deleteList={deleteList.words}
         translation={search ? filter(words, search) : words}
-        removeDelete={removeDelete}
-        addDelete={addDelete}
+        removeDelete={removeDelete('words')}
+        addDelete={addDelete('words')}
       />}
       {active === 1 && <TranslationTable
-        deleteList={deleteList}
+        deleteList={deleteList.texts}
         translation={search ? filter(texts, search) : texts}
-        removeDelete={removeDelete}
-        addDelete={addDelete}
+        removeDelete={removeDelete('texts')}
+        addDelete={addDelete('texts')}
       />}
     </DialogContent>
   )
@@ -208,7 +217,7 @@ function TranslationTable({
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell style={{ width: '130px'}}><strong>Actions</strong></TableCell>
+            <TableCell align="center" style={{ width: '130px'}}><strong>Actions</strong></TableCell>
             <TableCell><strong>Base</strong></TableCell>
             {localeKeys.map((x) => <TableCell key={x}><strong>{x}</strong></TableCell>)}
           </TableRow>

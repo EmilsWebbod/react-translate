@@ -6,19 +6,26 @@ import Typography from '@material-ui/core/Typography';
 import Alert from '@material-ui/lab/Alert';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
+import AddIcon from '@material-ui/icons/Add';
+import SaveIcon from '@material-ui/icons/Save';
 
 import TranslateInput from './TranslateInput';
 import { TranslateContext } from '../../../context/TranslateContext';
 import Suggestions from '../../../components/Suggestions';
+import { CircularProgress } from '@material-ui/core';
 
-export default function Translate() {
+export default function Translate({ last }: { last: boolean; }) {
   const { localeKeys, item: { branch }, save, busy } = React.useContext(TranslateContext);
 
   const isText = Boolean(branch.word.match(/\s/));
+  const isBranch = branch instanceof Branch;
   const isSentence = branch instanceof Branch ? branch.sentence : branch.isTreeText;
   const warnings = [];
-  const suggestions = branch instanceof Empty ? branch.suggestions() : '';
-
+  const suggestions = branch instanceof Empty ? branch.suggestions() : [];
+  const buttonLabel = busy ? 'Busy...' : last ? 'Save' : isBranch ? 'Edit' : 'Add';
+  const icon = busy
+    ? <CircularProgress size={15} /> :
+    last || isBranch ? <SaveIcon /> : <AddIcon />;
   if (isText !== isSentence) {
     if (isSentence) {
       warnings.push('Used t/text with single word as value.')
@@ -63,7 +70,8 @@ export default function Translate() {
           disabled={busy}
           variant="contained"
           color="primary"
-        >{busy ? 'Busy...' : 'Add'}</Button>
+          startIcon={icon}
+        >{buttonLabel}</Button>
       </DialogActions>
     </form>
   );
