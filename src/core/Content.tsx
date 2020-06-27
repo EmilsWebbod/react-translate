@@ -8,6 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import Csv from './content/Csv';
 
 const useStyles = makeStyles(() => ({
   dialog: {
@@ -45,6 +46,7 @@ export default function Content() {
       </DialogTitle>
       {state.show === 'translation' && <Translations />}
       {state.show === 'list' && <List />}
+      {state.show === 'csv' && <Csv />}
     </Dialog>
   )
 }

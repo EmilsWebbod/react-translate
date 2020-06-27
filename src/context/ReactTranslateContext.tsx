@@ -7,7 +7,7 @@ import addTranslations from '../utils/addTranslation';
 
 type Context = [State, React.Dispatch<React.SetStateAction<State>>]
 
-export type MenuStates = 'translation' | 'list' | null;
+export type MenuStates = 'translation' | 'list' | 'csv' | null;
 interface State {
   show: MenuStates;
   translations: TranslationItem[];

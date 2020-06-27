@@ -20,6 +20,7 @@ import Grid from '@material-ui/core/Grid';
 import BackspaceIcon from '@material-ui/icons/Backspace';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import TextField from '@material-ui/core/TextField';
+import DialogContent from '@material-ui/core/DialogContent';
 
 import { Settings } from '../../utils/settings';
 import { ReactTranslateContext } from '../../context/ReactTranslateContext';
@@ -85,8 +86,8 @@ export default function List() {
   }, [])
 
   return (
-    <>
-      <Grid container justify="space-between" alignItems="center" style={{ padding: '5px'}}>
+    <DialogContent>
+      <Grid container justify="space-between" alignItems="center">
         <Grid item>
           <Grid container spacing={1} alignItems="center">
             <Grid item>
@@ -149,7 +150,7 @@ export default function List() {
         removeDelete={removeDelete}
         addDelete={addDelete}
       />}
-    </>
+    </DialogContent>
   )
 }
 

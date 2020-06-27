@@ -7,6 +7,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import SpellcheckIcon from '@material-ui/icons/Spellcheck';
 import ListIcon from '@material-ui/icons/List';
+import ImportExportIcon from '@material-ui/icons/ImportExport';
 
 import { MenuStates, ReactTranslateContext } from '../context/ReactTranslateContext';
 import keyEvent from '../utils/keyEvent';
@@ -29,7 +30,7 @@ export default function Menu({
   const [state, setState] = React.useContext(ReactTranslateContext);
   const classes = useStyles();
 
-  const setTranslation = React.useCallback((state: MenuStates) => () => {
+  const setContent = React.useCallback((state: MenuStates) => () => {
     setState(s => ({...s, show: state}))
   }, [])
 
@@ -54,14 +55,18 @@ export default function Menu({
       <div className={classes.list}>
         <List>
           {state.translations.length > 0 && (
-            <ListItem button onClick={setTranslation('translation')}>
+            <ListItem button onClick={setContent('translation')}>
               <ListItemIcon><SpellcheckIcon /></ListItemIcon>
               <ListItemText primary={`${state.translations.length} translation(s)`} />
             </ListItem>
           )}
-          <ListItem button onClick={setTranslation('list')}>
+          <ListItem button onClick={setContent('list')}>
             <ListItemIcon><ListIcon /></ListItemIcon>
             <ListItemText primary="List" />
+          </ListItem>
+          <ListItem button onClick={setContent('csv')}>
+            <ListItemIcon><ImportExportIcon /></ListItemIcon>
+            <ListItemText primary="Export/Import CSV" />
           </ListItem>
         </List>
       </div>
