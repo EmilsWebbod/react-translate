@@ -1,9 +1,7 @@
 import * as React from 'react';
-import { Settings } from '../../utils/settings';
 import { AppBar } from '@material-ui/core';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import { useState } from 'react';
 import { WordTranslations } from '@ewb/translate';
 import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
@@ -12,8 +10,6 @@ import TableCell from '@material-ui/core/TableCell';
 import TableBody from '@material-ui/core/TableBody';
 import TableContainer from '@material-ui/core/TableContainer';
 import Paper from '@material-ui/core/Paper';
-import { ReactTranslateContext } from '../../context/ReactTranslateContext';
-import addTranslations from '../../utils/addTranslation';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -25,12 +21,16 @@ import BackspaceIcon from '@material-ui/icons/Backspace';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import TextField from '@material-ui/core/TextField';
 
+import { Settings } from '../../utils/settings';
+import { ReactTranslateContext } from '../../context/ReactTranslateContext';
+import addTranslations from '../../utils/addTranslation';
+
 export default function List() {
   const translate = Settings.of().translate;
   const [search, setSearch] = React.useState('');
   const [state, setState] = React.useContext(ReactTranslateContext);
-  const [busy, setBusy] = useState(false);
-  const [active, setActive] = useState(0);
+  const [busy, setBusy] = React.useState(false);
+  const [active, setActive] = React.useState(0);
   const [deleteList, setDelete] = React.useState<Set<string>>(new Set())
 
   const words = translate.exportWords();
