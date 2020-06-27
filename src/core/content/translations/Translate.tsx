@@ -12,17 +12,8 @@ import TranslateInput from './TranslateInput';
 import { TranslateContext } from '../../../context/TranslateContext';
 import Suggestions from '../../../components/Suggestions';
 
-const useStyle = makeStyles(() => ({
-  form: {
-    minHeight: '200px',
-    border: '1px solid black',
-    padding: '1rem'
-  }
-}))
-
 export default function Translate() {
   const { localeKeys, item: { branch }, save, busy } = React.useContext(TranslateContext);
-  const classes = useStyle();
 
   const isText = Boolean(branch.word.match(/\s/));
   const isSentence = branch instanceof Branch ? branch.sentence : branch.isTreeText;
@@ -42,9 +33,9 @@ export default function Translate() {
   }
 
   return (
-    <form className={classes.form} onSubmit={save}>
+    <form onSubmit={save}>
       <DialogContent>
-        <Grid container direction="column" justify="space-between" spacing={1}>
+        <Grid container direction="column" justify="space-between" spacing={2}>
           {warnings.length > 0 && warnings.map((warning, i) =>
             <Grid item key={i}>
               <Alert severity="warning">{warning}</Alert>
@@ -60,7 +51,11 @@ export default function Translate() {
               <Suggestions suggestions={suggestions} />
             </Grid>
           )}
-          {localeKeys.map(locale => <TranslateInput locale={locale} key={locale}/>)}
+          {localeKeys.map(locale => (
+            <Grid item key={locale}>
+              <TranslateInput locale={locale} />
+            </Grid>
+          ))}
         </Grid>
       </DialogContent>
       <DialogActions>

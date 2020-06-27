@@ -3,6 +3,7 @@ import Translate, { Branch, Empty } from '@ewb/translate';
 
 import { TranslationItem } from '../types/translationItem';
 import { Settings } from '../utils/settings';
+import addTranslations from '../utils/addTranslation';
 
 type Context = [State, React.Dispatch<React.SetStateAction<State>>]
 
@@ -28,16 +29,8 @@ export function ReactTranslateProvider({
 
   const addTranslation = React.useCallback((translate: Translate, branch: Branch | Empty) => {
     state[1](s => {
-      const isNew = s.translations.every(x => x.branch.word !== branch.word);
-      return {
-          ...s,
-          show: isNew ? 'translation' : s.show,
-          translations: isNew ? [...s.translations, {
-          branch,
-          translate,
-          translations: {}
-        }] : s.translations
-      }
+      const [isNew, translations] = addTranslations(s.translations, translate, branch)
+      return { ...s, translations, show: isNew ? 'translation' : s.show }
     })
   }, []);
 

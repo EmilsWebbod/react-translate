@@ -56,7 +56,7 @@ export default function Menu({
           {state.translations.length > 0 && (
             <ListItem button onClick={setTranslation('translation')}>
               <ListItemIcon><SpellcheckIcon /></ListItemIcon>
-              <ListItemText primary={`Add ${state.translations.length} translations`} />
+              <ListItemText primary={`${state.translations.length} translation(s)`} />
             </ListItem>
           )}
           <ListItem button onClick={setTranslation('list')}>

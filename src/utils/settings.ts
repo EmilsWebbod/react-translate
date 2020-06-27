@@ -78,9 +78,11 @@ export class Settings {
           saveWordsToFile(words)
         ])
       }
+      return true;
     } catch (e) {
       alert('Translate file server error')
       console.error(e);
+      return false;
     }
   }
 }

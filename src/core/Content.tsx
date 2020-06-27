@@ -4,7 +4,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Translations from './content/Translations';
 import List from './content/List';
-import { Grid } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import makeStyles from '@material-ui/core/styles/makeStyles';
@@ -29,7 +29,7 @@ export default function Content() {
       fullWidth
       onClose={handleClose}
       open={state.show !== null}
-      disableBackdropClick
+      disableBackdropClick={state.show === 'translation'}
       className={classes.dialog}
       disableEnforceFocus
       disableRestoreFocus
