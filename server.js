@@ -29,6 +29,10 @@ app.post('/texts', upload.single('texts'), (req, res) => {
   res.sendStatus(200);
 });
 
+app.post('/settings', upload.single('settings'), (req, res) => {
+  res.sendStatus(200);
+});
+
 app.listen(PORT, () => {
   console.info(`Files server listening on port ${PORT} and saving files (words.json & texts.json) to ${DIST}`);
 });

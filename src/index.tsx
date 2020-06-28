@@ -7,12 +7,14 @@ import { ReactTranslateProvider } from './context/ReactTranslateContext';
 import MenuFab from './core/MenuFab';
 import Menu from './core/Menu';
 import Content from './core/Content';
+import { TranslateSettings } from './types/stat';
 
 interface Options {
   fileServerURL?: string;
   apiServer?: string;
   locales?: LocaleObject;
   googleAPIKey?: string;
+  settings?: TranslateSettings;
 }
 
 function handleNoMatch(translate: Translate, empty: Empty) {
@@ -39,11 +41,16 @@ export default ({
   fileServerURL,
   googleAPIKey,
   apiServer,
+  settings
 }: Options) => {
-  const settings = new Settings(locales, fileServerURL, googleAPIKey, Boolean(apiServer));
+  const translateSettings = new Settings(locales, fileServerURL, googleAPIKey, Boolean(apiServer));
 
   if (apiServer) {
     new TranslationApi(apiServer);
+  }
+  
+  if (settings) {
+    translateSettings.translateSettings = settings;
   }
 
   if (typeof document !== 'undefined') {
@@ -55,7 +62,7 @@ export default ({
   
   return (props: TranslateOptions) => {
     const translate = new Translate(props);
-    settings.setTranslate(translate);
+    translateSettings.setTranslate(translate);
     return translate;
   };
 }

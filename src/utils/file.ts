@@ -1,5 +1,6 @@
 import { WordTranslations } from '@ewb/translate';
 import { Settings } from './settings';
+import { TranslateSettings } from '../types/stat';
 
 export function saveWordsToFile(words: WordTranslations) {
   return post('words', words);
@@ -7,6 +8,10 @@ export function saveWordsToFile(words: WordTranslations) {
 
 export function saveTextsToFile(texts: WordTranslations) {
   return post('texts', texts);
+}
+
+export function saveSettingsToFile(settings: TranslateSettings) {
+  return post('settings', settings);
 }
 
 function post(path: string, data: any) {

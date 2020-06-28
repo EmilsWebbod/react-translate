@@ -2,7 +2,7 @@ import * as React from 'react';
 import { AppBar } from '@material-ui/core';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import { WordTranslations } from '@ewb/translate';
+import { Branch, WordTranslations } from '@ewb/translate';
 import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
@@ -21,10 +21,12 @@ import BackspaceIcon from '@material-ui/icons/Backspace';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import TextField from '@material-ui/core/TextField';
 import DialogContent from '@material-ui/core/DialogContent';
+import OpenInNew from '@material-ui/icons/OpenInNew';
 
 import { Settings } from '../../utils/settings';
 import { ReactTranslateContext } from '../../context/ReactTranslateContext';
 import addTranslations from '../../utils/addTranslation';
+import ActiveTranslation from './list/ActiveTranslation';
 
 export default function List() {
   const translate = Settings.of().translate;
@@ -158,6 +160,7 @@ export default function List() {
         translation={search ? filter(texts, search) : texts}
         removeDelete={removeDelete('texts')}
         addDelete={addDelete('texts')}
+        isText
       />}
     </DialogContent>
   )
@@ -174,6 +177,7 @@ function filter<T extends object>(obj: T, matchKey: string) {
 }
 
 interface Props {
+  isText?: boolean;
   translation: WordTranslations;
   deleteList: Set<string>;
   removeDelete: (word: string) => void;
@@ -184,9 +188,11 @@ function TranslationTable({
   translation,
   removeDelete,
   addDelete,
-  deleteList
+  deleteList,
+  isText
 }: Props) {
   const [state, setState] = React.useContext(ReactTranslateContext);
+  const [active, setActive] = React.useState<Branch | null>(null);
   const settings = Settings.of();
   const localeKeys = Settings.of().localeKeys;
   const translations = Object.keys(translation).sort((a, b) => {
@@ -211,13 +217,24 @@ function TranslationTable({
       translations: s.translations.filter(x => x.branch.word !== word)
     }))
   }, [])
+  
+  const handleActive = React.useCallback((trans: string) => {
+    return () => {
+      const branch = settings.translate.getBranch(trans, isText);
+      if (branch) {
+        setActive(branch);
+      }
+    }
+  }, [])
 
   return (
+    <>
+      <ActiveTranslation active={active} setActive={setActive} />
     <TableContainer component={Paper}>
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell align="center" style={{ width: '130px'}}><strong>Actions</strong></TableCell>
+            <TableCell align="center" style={{ width: '180px'}}><strong>Actions</strong></TableCell>
             <TableCell><strong>Base</strong></TableCell>
             {localeKeys.map((x) => <TableCell key={x}><strong>{x}</strong></TableCell>)}
           </TableRow>
@@ -226,6 +243,7 @@ function TranslationTable({
           {translations.map((trans) => (
             <TableRow key={trans}>
               <TableCell>
+                <IconButton onClick={handleActive(trans)}><OpenInNew /></IconButton>
                 {state.translations.some(x => x.branch.word === trans) ? (
                   <IconButton onClick={() => onRemove(trans)}><CancelIcon /></IconButton>
                 ) : (
@@ -246,5 +264,6 @@ function TranslationTable({
         </TableBody>
       </Table>
     </TableContainer>
+    </>
   )
 }

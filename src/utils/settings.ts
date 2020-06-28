@@ -1,6 +1,7 @@
 import { VALID_GOOGLE_LOCALES } from './google';
-import Translate, { Branch, Empty, ISO_639_1 } from '@ewb/translate';
-import { saveTextsToFile, saveWordsToFile } from './file';
+import Translate, { Branch, Empty, ISO_639_1, TranslationUsage } from '@ewb/translate';
+import { saveSettingsToFile, saveTextsToFile, saveWordsToFile } from './file';
+import { TranslateSettings } from '../types/stat';
 
 export type LocaleObject = {
   [key in ISO_639_1]?: LocaleObjectValue;
@@ -24,6 +25,7 @@ export class Settings {
   private sub: SubFn | null = null;
   private _translate: Translate | undefined;
   private _queue: Array<{ translate: Translate; branch: Branch | Empty; }> = []
+  private _translateSettings: TranslateSettings = { texts: {}, words: {} };
   readonly localeKeys: ISO_639_1[] = [];
   
   constructor(
@@ -67,15 +69,22 @@ export class Settings {
   get translate(): Translate {
     return this._translate as Translate;
   }
+  
+  set translateSettings(settings: TranslateSettings) {
+    console.log(settings);
+    this._translateSettings = settings;
+  }
 
   public async save() {
     try {
       if (this._translate) {
         const texts = this._translate.exportTexts();
         const words = this._translate.exportWords();
+        const settings = this.getSettings();
         await Promise.all([
           saveTextsToFile(texts),
-          saveWordsToFile(words)
+          saveWordsToFile(words),
+          saveSettingsToFile(settings)
         ])
       }
       return true;
@@ -85,4 +94,38 @@ export class Settings {
       return false;
     }
   }
+  
+  public getUsage(type: 'words' | 'texts', word: string) {
+    if (this._translateSettings && this._translateSettings[type] && this._translateSettings[type][word]) {
+      return this._translateSettings[type][word].usages || [];
+    }
+    return [];
+  }
+  
+  public getSettings() {
+    if (this._translate) {
+      const branches = this._translate.exportBranches();
+      const usages = branches.filter(x => x.usageStack && x.usageStack.length > 0);
+  
+      for(const branch of usages) {
+        if (branch.sentence) {
+          const stat = this._translateSettings.texts[branch.word] || { usages: [] };
+          stat.usages = combineUsages(stat.usages, branch)
+          this._translateSettings.texts[branch.word] = stat;
+        } else {
+          const stat = this._translateSettings.words[branch.word] || { usages: [] };
+          stat.usages = combineUsages(stat.usages, branch)
+          this._translateSettings.words[branch.word] = stat;
+        }
+      }
+    }
+    
+    return this._translateSettings;
+  }
+}
+
+function combineUsages(oldUsages: TranslationUsage[], branch: Branch) {
+  const usageStack = branch.usageStack;
+  const old = (oldUsages || []).filter(x => !usageStack.some(y => x.file === y.file))
+  return [...old, ...usageStack];
 }
