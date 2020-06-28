@@ -71,7 +71,6 @@ export class Settings {
   }
   
   set translateSettings(settings: TranslateSettings) {
-    console.log(settings);
     this._translateSettings = settings;
   }
 

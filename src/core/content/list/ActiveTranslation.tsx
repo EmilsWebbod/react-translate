@@ -39,10 +39,6 @@ export default function ActiveTranslation({
   const usage = (active ? settings.getUsage(type, active.word) : [])
     .filter(x => !usageStack.some(y => x.file === y.file));
   const size = '30px';
-  if (active) {
-    console.log(usageStack)
-    console.log(settings.getUsage(type, active.word))
-  }
   
   return (
     <Dialog open={Boolean(active)} maxWidth="sm" onClose={onClose} fullWidth>
