@@ -14,16 +14,18 @@ interface Props {
 export default function ApiChips({
   locale
 }: Props) {
+  const [init, setInit] = React.useState(false);
   const ctx = React.useContext(TranslateContext);
   const value = ctx.translations[locale];
   const translations = ctx.apiTranslations[locale]
     ? ctx.apiTranslations[locale].split(',') : []
 
   React.useEffect(() => {
-    if (translations.length === 1 && translations[0] !== value) {
+    if (!init && translations.length === 1 && translations[0] !== value) {
+      setInit(true);
       ctx.onChange(locale, translations[0]);
     }
-  }, [translations, value, ctx.onChange, locale])
+  }, [translations, value, ctx.onChange, locale, init])
 
   return (
     <Grid container spacing={1}>
