@@ -12,8 +12,9 @@ interface Props {
 const useStyles = makeStyles((theme) => ({
   fab: {
     position: 'fixed',
-    bottom: theme.spacing(2),
+    bottom: theme.spacing(10),
     right: theme.spacing(2),
+    zIndex: 1299
   }
 }))
 

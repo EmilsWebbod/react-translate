@@ -9,10 +9,12 @@ import ApiChips from './ApiChips';
 
 interface Props {
   locale: ISO_639_1;
+  autoFocus?: boolean;
 }
 
 export default function TranslateInput({
   locale,
+  autoFocus,
 }: Props) {
   const { item, translations, onChange, locales } = React.useContext(TranslateContext);
   const value = translations[locale];
@@ -33,6 +35,7 @@ export default function TranslateInput({
           target: localeItem.googleLocale,
           word: branch.word
         } : undefined}
+        autoFocus={autoFocus}
       />
       <Grid item>
         <ApiChips locale={locale} />

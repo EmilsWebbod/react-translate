@@ -20,6 +20,7 @@ interface Props {
     word: string;
   };
   required?: boolean;
+  autoFocus?: boolean;
 }
 
 export default function Input({
@@ -27,7 +28,8 @@ export default function Input({
   label,
   googleTranslate,
   onChange,
-  required
+  required,
+  autoFocus
 }: Props) {
   const [busy, setBusy] = React.useState(false);
   const [error, setError] = React.useState<string>('');
@@ -51,6 +53,7 @@ export default function Input({
         ) : undefined}
         required={required}
         labelWidth={150}
+        autoFocus={autoFocus}
       />
     </FormControl>
     {error && <Alert severity="error">{error}</Alert>}

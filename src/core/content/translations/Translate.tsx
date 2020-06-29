@@ -8,11 +8,11 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import AddIcon from '@material-ui/icons/Add';
 import SaveIcon from '@material-ui/icons/Save';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import TranslateInput from './TranslateInput';
 import { TranslateContext } from '../../../context/TranslateContext';
 import Suggestions from '../../../components/Suggestions';
-import { CircularProgress } from '@material-ui/core';
 
 export default function Translate({ last }: { last: boolean; }) {
   const { localeKeys, item: { branch }, save, busy } = React.useContext(TranslateContext);
@@ -57,9 +57,9 @@ export default function Translate({ last }: { last: boolean; }) {
               <Suggestions suggestions={suggestions} />
             </Grid>
           )}
-          {localeKeys.map(locale => (
+          {localeKeys.map((locale, i) => (
             <Grid item key={locale}>
-              <TranslateInput locale={locale} />
+              <TranslateInput locale={locale} autoFocus={i === 0} />
             </Grid>
           ))}
         </Grid>
