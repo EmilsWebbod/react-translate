@@ -18,7 +18,7 @@ import words from './words.json';
 import texts from './texts.json';
 
 const Translate = reactTranslate({
-  fileServerURL: 'http://localhost:3001',
+  fileServerURL: 'http://localhost:7345',
   locales: {
     // Key with typeof ISO-639-1
     nb: { label: 'Norwegian', googleLocale: 'no' },
@@ -51,7 +51,7 @@ DIST=%PATH% PORT=$PORT$ node node_modules/@ewb/react-translate/server
 ```
 This server will save 2 files `words.json` and `texts.json` when you add translations in the front-end.  
 PATH is default src/translate  
-PORT is default 3001
+PORT is default 7345 (TRAS)
 
 ## Translate
 ```

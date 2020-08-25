@@ -30,7 +30,7 @@ export class Settings {
   
   constructor(
     public locales: LocaleObject = {},
-    public fileServerURL: string = 'http://localhost:3001',
+    public fileServerURL: string = 'http://localhost:7345',
     public googleAPIKey?: string,
     public apiServer?: boolean
   ) {

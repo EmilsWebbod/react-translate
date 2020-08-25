@@ -3,7 +3,7 @@ const app = express();
 const Multer = require('multer');
 
 const DIST = process.env.DIST || 'src/translate';
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 7345;
 
 const storage = Multer.diskStorage({
   destination: function (req, file, cb) {
@@ -17,7 +17,7 @@ const storage = Multer.diskStorage({
 const upload = Multer({ storage });
 
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", 'http://localhost:3000');
+  res.header("Access-Control-Allow-Origin", 'http://localhost:7345');
   next();
 })
 
