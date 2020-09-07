@@ -8,9 +8,13 @@ import ListItemText from '@material-ui/core/ListItemText';
 import SpellcheckIcon from '@material-ui/icons/Spellcheck';
 import ListIcon from '@material-ui/icons/List';
 import ImportExportIcon from '@material-ui/icons/ImportExport';
+import AddIcon from '@material-ui/icons/AddCircle';
 
 import { MenuStates, ReactTranslateContext } from '../context/ReactTranslateContext';
 import keyEvent from '../utils/keyEvent';
+import { TranslateContext } from '../context/TranslateContext';
+import { Settings } from '../utils/settings';
+import { TranslationItem } from '../types/translationItem';
 
 const useStyles = makeStyles({
   list: {
@@ -28,11 +32,36 @@ export default function Menu({
   onClose
 }: Props) {
   const [state, setState] = React.useContext(ReactTranslateContext);
+  const tState = React.useContext(TranslateContext);
   const classes = useStyles();
 
   const setContent = React.useCallback((state: MenuStates) => () => {
     setState(s => ({...s, show: state}))
-  }, [])
+  }, []);
+
+  const translateAll = React.useCallback(() => {
+    const settings = Settings.of();
+    const translate = settings.translate;
+    const texts = translate.exportTexts();
+    const words = translate.exportWords();
+    const translations: TranslationItem[] = [];
+    for (const key in words) {
+      const branch = settings.translate.getBranch(key);
+      if (branch) {
+        translations.push({ branch, translate, translations: branch.translations })
+      }
+    }
+    for (const key in texts) {
+      const branch = settings.translate.getBranch(key, true);
+      if (branch) {
+        translations.push({ branch, translate, translations: branch.translations })
+      }
+    }
+
+    setState(() => {
+      return { show: 'translation', translations };
+    })
+  }, [tState]);
 
   React.useEffect(() => {
     return keyEvent('t', () => {
@@ -67,6 +96,10 @@ export default function Menu({
           <ListItem button onClick={setContent('csv')}>
             <ListItemIcon><ImportExportIcon /></ListItemIcon>
             <ListItemText primary="Export/Import CSV" />
+          </ListItem>
+          <ListItem button onClick={translateAll}>
+            <ListItemIcon><AddIcon /></ListItemIcon>
+            <ListItemText primary="Edit All" />
           </ListItem>
         </List>
       </div>
