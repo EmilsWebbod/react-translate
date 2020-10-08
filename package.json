@@ -43,6 +43,7 @@
     }
   },
   "devDependencies": {
+    "@ewb/translate": "^1.5.2",
     "@types/file-saver": "^2.0.1",
     "@types/json2csv": "^5.0.1",
     "@types/node": "^13.1.8",
@@ -56,10 +57,18 @@
   },
   "peerDependencies": {
     "react": "^16.12.0",
-    "react-dom": "^16.12.0"
+    "react-dom": "^16.12.0",
+    "@ewb/translate": "*"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    }
   },
   "dependencies": {
-    "@ewb/translate": "^1.5.2",
     "@material-ui/core": "^4.10.2",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.56",
