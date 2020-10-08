@@ -1066,10 +1066,10 @@
   resolved "https://registry.yarnpkg.com/@emotion/hash/-/hash-0.8.0.tgz#bbbff68978fefdbe68ccb533bc8cbe1d1afb5413"
   integrity sha512-kBJtf7PH6aWwZ6fka3zQ0p6SBYzx4fl1LoZXE2RrnYST9Xljm7WfKJrU4g/Xr3Beg72MLrp1AWNUmuYJTL7Cow==
 
-"@ewb/translate@^1.5.2":
-  version "1.5.2"
-  resolved "https://registry.yarnpkg.com/@ewb/translate/-/translate-1.5.2.tgz#ca10c9e61b701e369c356d160642361a5266a2cd"
-  integrity sha512-4lArv+GGG+qPbqJzErDIYLBj4r24zS8LyLx/XrPVbyN165/YGENH9Dmu0xeIPazxp+az5lzlRL8ybLmrMhFvWg==
+"@ewb/translate@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@ewb/translate/-/translate-1.6.0.tgz#2cddd1b50bb2746d945c6bb767988ab95bd81c63"
+  integrity sha512-yCd7OyiavgLpok4aEaqW6go13UbrefCqtBz0JKeaMzBgKeX2Udty8KaxQAh3HKnh4M/IfJxWOooxLQ2tbfxhPw==
 
 "@hapi/address@2.x.x":
   version "2.1.4"
