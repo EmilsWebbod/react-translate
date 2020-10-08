@@ -74,6 +74,10 @@ export class Settings {
     this._translateSettings = settings;
   }
 
+  get translateSettings() {
+    return this._translateSettings;
+  }
+
   public async save() {
     try {
       if (this._translate) {
