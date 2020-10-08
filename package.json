@@ -43,7 +43,7 @@
     }
   },
   "devDependencies": {
-    "@ewb/translate": "^1.6.0",
+    "@ewb/translate": "^1.7.0",
     "@types/file-saver": "^2.0.1",
     "@types/json2csv": "^5.0.1",
     "@types/node": "^13.1.8",
