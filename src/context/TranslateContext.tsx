@@ -87,7 +87,7 @@ export function TranslateProvider({
         busy: false,
         translations: localeKeys.reduce((obj, key) => ({
           ...obj,
-          key: translations[key]
+          [key]: translations[key]
             ? translations[key].split(',')[0]
             : s.translations[key]
         }), {}),
