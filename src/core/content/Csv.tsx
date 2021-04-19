@@ -76,12 +76,22 @@ export default function Csv() {
   const onSave = React.useCallback(async () => {
     for(const word in state.words) {
       if (state.words.hasOwnProperty(word)) {
-        translate.tree.addWord(word, state.words[word]);
+        const item = translate.getWord(word)
+        if (item) {
+          item.addTranslations(state.words[word])
+        } else {
+          translate.tree.addWord(word, state.words[word]);
+        }
       }
     }
     for(const text in state.texts) {
       if (state.texts.hasOwnProperty(text)) {
-        translate.tree.addText(text, state.texts[text]);
+        const item = translate.getText(text)
+        if (item) {
+          item.addTranslations(state.texts[text])
+        } else {
+          translate.tree.addText(text, state.texts[text]);
+        }
       }
     }
     setBusy(true);
