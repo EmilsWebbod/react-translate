@@ -1382,10 +1382,10 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@ewb/translate@^1.8.1":
-  version "1.8.1"
-  resolved "https://registry.yarnpkg.com/@ewb/translate/-/translate-1.8.1.tgz#5d48a5adc30befa0cca9eef8cee90ed67373a79a"
-  integrity sha512-F0RUUllm9UfIus2EHEf38SI5xOCp4pC5Ec+Q6YK2dczwxAPp+R3tlHu2rTePw+esHwHLrHa1iyp0XFUiLCsjuA==
+"@ewb/translate@^1.8.2":
+  version "1.8.2"
+  resolved "https://registry.yarnpkg.com/@ewb/translate/-/translate-1.8.2.tgz#65af779657aceb2c8d9d50348140aea58b3625ab"
+  integrity sha512-hFwHwPsgOJXUZgLxYnWtxgZ2JBTV0zOGdZg07A+RHAwfxHj4X9MxKKqL4W0j4IWJ/hAyepSVuUd+x77wW1gmsQ==
 
 "@hapi/address@2.x.x":
   version "2.1.4"
