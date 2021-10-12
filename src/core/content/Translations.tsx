@@ -11,23 +11,31 @@ export default function Translations() {
   const [state, setState] = React.useContext(ReactTranslateContext);
 
   if (state.translations.length === 0) {
-    return <>
-      <LinearProgress color="secondary" />
-      <Typography>
-        Saving translations and refreshing... Please wait
-      </Typography>
-    </>;
+    return (
+      <>
+        <LinearProgress color="secondary" />
+        <Typography>
+          Saving translations and refreshing... Please wait
+        </Typography>
+      </>
+    );
   }
 
   const onTranslated = React.useCallback(() => {
-    setState(s => {
+    setState((s) => {
       const translations = s.translations.slice(1, s.translations.length);
       if (translations.length === 0) {
-        Settings.of().save();
+        try {
+          Settings.of().save();
+          window.location.reload();
+        } catch (e) {
+          alert('API connection failed');
+          setState((s) => ({ ...s, show: null }));
+        }
       }
       return { ...s, translations };
-    })
-  }, [])
+    });
+  }, []);
 
   const item = state.translations[0];
   return (
@@ -38,5 +46,5 @@ export default function Translations() {
     >
       <Translate last={state.translations.length === 1} />
     </TranslateProvider>
-  )
+  );
 }
