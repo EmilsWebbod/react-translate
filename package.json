@@ -38,7 +38,7 @@
     "server.js"
   ],
   "devDependencies": {
-    "@ewb/translate": "^1.9.0",
+    "@ewb/translate": "^1.9.1",
     "@types/file-saver": "^2.0.3",
     "@types/json2csv": "^5.0.3",
     "@types/react": "^17.0.18",
