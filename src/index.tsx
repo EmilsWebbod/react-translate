@@ -2,12 +2,12 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import Translate, { Branch, Empty, TranslateOptions, TranslationApi } from '@ewb/translate';
 
-import { LocaleObject, Settings } from './utils/settings';
-import { ReactTranslateProvider } from './context/ReactTranslateContext';
-import MenuFab from './core/MenuFab';
-import Menu from './core/Menu';
-import Content from './core/Content';
-import { TranslateSettings } from './types/stat';
+import { LocaleObject, Settings } from './utils/settings.js';
+import { ReactTranslateProvider } from './context/ReactTranslateContext.js';
+import MenuFab from './core/MenuFab.js';
+import Menu from './core/Menu.js';
+import Content from './core/Content.js';
+import { TranslateSettings } from './types/stat.js';
 
 interface Options {
   fileServerURL?: string;

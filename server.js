@@ -1,6 +1,6 @@
-const express = require('express');
+import express from 'express';
+import Multer from 'multer';
 const app = express();
-const Multer = require('multer');
 
 const DIST = process.env.DIST || 'src/translate';
 const PORT = process.env.PORT || 7345;

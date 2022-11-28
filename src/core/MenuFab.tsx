@@ -2,7 +2,7 @@ import * as React from 'react';
 import TranslateIcon from '@material-ui/icons/Translate';
 import Fab from '@material-ui/core/Fab';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import keyEvent from '../utils/keyEvent';
+import keyEvent from '../utils/keyEvent.js';
 
 interface Props {
   show: boolean;

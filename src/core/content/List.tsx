@@ -23,10 +23,10 @@ import TextField from '@material-ui/core/TextField';
 import DialogContent from '@material-ui/core/DialogContent';
 import OpenInNew from '@material-ui/icons/OpenInNew';
 
-import { Settings } from '../../utils/settings';
-import { ReactTranslateContext } from '../../context/ReactTranslateContext';
-import addTranslations from '../../utils/addTranslation';
-import ActiveTranslation from './list/ActiveTranslation';
+import { Settings } from '../../utils/settings.js';
+import { ReactTranslateContext } from '../../context/ReactTranslateContext.js';
+import addTranslations from '../../utils/addTranslation.js';
+import ActiveTranslation from './list/ActiveTranslation.js';
 
 export default function List() {
   const translate = Settings.of().translate;

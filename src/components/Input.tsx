@@ -7,7 +7,7 @@ import IconButton from '@material-ui/core/IconButton';
 import GTranslateIcon from '@material-ui/icons/GTranslate';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import getGoogleTranslation, { VALID_GOOGLE_LOCALES } from '../utils/google';
+import getGoogleTranslation, { VALID_GOOGLE_LOCALES } from '../utils/google.js';
 import { Alert } from '@material-ui/lab';
 
 interface Props {

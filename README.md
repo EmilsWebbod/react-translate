@@ -14,8 +14,8 @@ npm install -s @ewb/react-translate
 
 ```
 import reactTranslate, { handleNoMatch, handleNoTranslation } from '@ewb/react-translate';
-import words from './words.json';
-import texts from './texts.json';
+import words from './words.json.js';
+import texts from './texts.json.js';
 
 const Translate = reactTranslate({
   fileServerURL: 'http://localhost:7345',

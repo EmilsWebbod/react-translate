@@ -2,10 +2,10 @@ import * as React from 'react';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Typography from '@material-ui/core/Typography';
 
-import { ReactTranslateContext } from '../../context/ReactTranslateContext';
-import Translate from './translations/Translate';
-import { TranslateProvider } from '../../context/TranslateContext';
-import { Settings } from '../../utils/settings';
+import { ReactTranslateContext } from '../../context/ReactTranslateContext.js';
+import Translate from './translations/Translate.js';
+import { TranslateProvider } from '../../context/TranslateContext.js';
+import { Settings } from '../../utils/settings.js';
 
 export default function Translations() {
   const [state, setState] = React.useContext(ReactTranslateContext);

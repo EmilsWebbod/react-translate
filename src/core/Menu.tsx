@@ -10,11 +10,11 @@ import ListIcon from '@material-ui/icons/List';
 import ImportExportIcon from '@material-ui/icons/ImportExport';
 import AddIcon from '@material-ui/icons/AddCircle';
 
-import { MenuStates, ReactTranslateContext } from '../context/ReactTranslateContext';
-import keyEvent from '../utils/keyEvent';
-import { TranslateContext } from '../context/TranslateContext';
-import { Settings } from '../utils/settings';
-import { TranslationItem } from '../types/translationItem';
+import { MenuStates, ReactTranslateContext } from '../context/ReactTranslateContext.js';
+import keyEvent from '../utils/keyEvent.js';
+import { TranslateContext } from '../context/TranslateContext.js';
+import { Settings } from '../utils/settings.js';
+import { TranslationItem } from '../types/translationItem.js';
 
 const useStyles = makeStyles({
   list: {

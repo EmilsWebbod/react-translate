@@ -1,9 +1,9 @@
 import * as React from 'react';
 import Translate, { Branch, Empty } from '@ewb/translate';
 
-import { TranslationItem } from '../types/translationItem';
-import { Settings } from '../utils/settings';
-import addTranslations from '../utils/addTranslation';
+import { TranslationItem } from '../types/translationItem.js';
+import { Settings } from '../utils/settings.js';
+import addTranslations from '../utils/addTranslation.js';
 
 type Context = [State, React.Dispatch<React.SetStateAction<State>>]
 

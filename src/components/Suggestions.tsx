@@ -9,7 +9,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Tooltip from '@material-ui/core/Tooltip';
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import VisibilityIcon from '@material-ui/icons/Visibility';
-import { TranslateContext } from '../context/TranslateContext';
+import { TranslateContext } from '../context/TranslateContext.js';
 
 interface Props {
   suggestions: Branch[];

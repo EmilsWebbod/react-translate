@@ -5,7 +5,7 @@ import Chip from '@material-ui/core/Chip';
 import SwapIcon from '@material-ui/icons/SwapVert';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 
-import { TranslateContext } from '../../../context/TranslateContext';
+import { TranslateContext } from '../../../context/TranslateContext.js';
 
 interface Props {
   locale: ISO_639_1;

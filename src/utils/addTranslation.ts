@@ -1,5 +1,5 @@
 import Translate, { Branch, Empty } from '@ewb/translate';
-import { TranslationItem } from '../types/translationItem';
+import { TranslationItem } from '../types/translationItem.js';
 
 export default function addTranslations(
   translations: TranslationItem[],

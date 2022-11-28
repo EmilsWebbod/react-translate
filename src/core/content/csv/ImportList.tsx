@@ -12,7 +12,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import TableBody from '@material-ui/core/TableBody';
 
-import { Settings } from '../../../utils/settings';
+import { Settings } from '../../../utils/settings.js';
 
 interface Props {
   words: WordTranslations;

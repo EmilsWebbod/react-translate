@@ -1,4 +1,4 @@
-import { Settings } from './settings';
+import { Settings } from './settings.js';
 
 export type VALID_GOOGLE_LOCALES = 'af'
   | 'sq'

@@ -14,7 +14,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import PrintIcon from '@material-ui/icons/Print';
 
-import { Settings } from '../../../utils/settings';
+import { Settings } from '../../../utils/settings.js';
 import { Badge } from '@material-ui/core';
 import { Info } from '@material-ui/icons';
 import Tooltip from '@material-ui/core/Tooltip';

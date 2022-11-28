@@ -1,6 +1,6 @@
 import { WordTranslations } from '@ewb/translate';
-import { Settings } from './settings';
-import { TranslateSettings } from '../types/stat';
+import { Settings } from './settings.js';
+import { TranslateSettings } from '../types/stat.js';
 
 export function saveWordsToFile(words: WordTranslations) {
   return post('words', words);

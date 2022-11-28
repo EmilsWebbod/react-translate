@@ -2,10 +2,10 @@ import * as React from 'react';
 import { ISO_639_1 } from '@ewb/translate';
 import Grid from '@material-ui/core/Grid';
 
-import Input from '../../../components/Input';
-import { VALID_GOOGLE_LOCALES } from '../../../utils/google';
-import { TranslateContext } from '../../../context/TranslateContext';
-import ApiChips from './ApiChips';
+import Input from '../../../components/Input.js';
+import { VALID_GOOGLE_LOCALES } from '../../../utils/google.js';
+import { TranslateContext } from '../../../context/TranslateContext.js';
+import ApiChips from './ApiChips.js';
 
 interface Props {
   locale: ISO_639_1;

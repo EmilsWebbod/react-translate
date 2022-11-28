@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Parser } from 'json2csv';
-import * as csv from 'csvtojson';
+import json2csv from 'json2csv';
+import csv from 'csvtojson';
 import DialogContent from '@material-ui/core/DialogContent';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -9,9 +9,9 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import SaveIcon from '@material-ui/icons/Save';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
-import { Settings } from '../../utils/settings';
+import { Settings } from '../../utils/settings.js';
 import { ISO_639_1, Translations, WordTranslations } from '@ewb/translate';
-import ImportList from './csv/ImportList';
+import ImportList from './csv/ImportList.js';
 import { Typography } from '@material-ui/core';
 
 interface State {
@@ -41,14 +41,14 @@ export default function Csv() {
     );
 
     const fields = [locale, ...locales];
-    const parser = new Parser({ fields, delimiter: ';' });
+    const parser = new json2csv.Parser({ fields, delimiter: ';' });
     const csv = parser.parse(rows);
     download(csv);
   }, [translate, settings, locales, locale]);
 
   const importTranslations = React.useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
-      const file = e.target.files && e.target.files[0];
+      const file = e.target.files && e.target.files![0];
       if (file) {
         const fr = new FileReader();
         fr.onloadend = async () => {

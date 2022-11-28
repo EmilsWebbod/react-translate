@@ -10,9 +10,9 @@ import AddIcon from '@material-ui/icons/Add';
 import SaveIcon from '@material-ui/icons/Save';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import TranslateInput from './TranslateInput';
-import { TranslateContext } from '../../../context/TranslateContext';
-import Suggestions from '../../../components/Suggestions';
+import TranslateInput from './TranslateInput.js';
+import { TranslateContext } from '../../../context/TranslateContext.js';
+import Suggestions from '../../../components/Suggestions.js';
 
 export default function Translate({ last }: { last: boolean; }) {
   const { localeKeys, item: { branch }, save, busy } = React.useContext(TranslateContext);

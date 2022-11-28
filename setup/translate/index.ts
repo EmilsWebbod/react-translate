@@ -1,4 +1,4 @@
-import { prodTranslate } from './index.production';
+import { prodTranslate } from './index.production.js';
 
 let translate = prodTranslate;
 

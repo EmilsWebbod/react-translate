@@ -1,12 +1,12 @@
-import { VALID_GOOGLE_LOCALES } from './google';
+import { VALID_GOOGLE_LOCALES } from './google.js';
 import Translate, {
   Branch,
   Empty,
   ISO_639_1,
   TranslationUsage,
 } from '@ewb/translate';
-import { saveSettingsToFile, saveTextsToFile, saveWordsToFile } from './file';
-import { TranslateSettings } from '../types/stat';
+import { saveSettingsToFile, saveTextsToFile, saveWordsToFile } from './file.js';
+import { TranslateSettings } from '../types/stat.js';
 
 export type LocaleObject = {
   [key in ISO_639_1]?: LocaleObjectValue;

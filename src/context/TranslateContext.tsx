@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { TranslationItem } from '../types/translationItem';
+import { TranslationItem } from '../types/translationItem.js';
 import { Branch, ISO_639_1, Translations } from '@ewb/translate';
-import { LocaleObject, Settings } from '../utils/settings';
-import { getApiTranslations } from '../utils/api';
+import { LocaleObject, Settings } from '../utils/settings.js';
+import { getApiTranslations } from '../utils/api.js';
 
 interface Context extends State {
   item: TranslationItem;
