@@ -1,5 +1,4 @@
-import { Branch, Empty, ISO_639_1, Translations } from '@ewb/translate';
-import { TranslationApi } from '@ewb/translate/lib/TranslationApi';
+import { Branch, Empty, ISO_639_1, Translations, TranslationApi } from '@ewb/translate';
 
 export async function getApiTranslations(branch: Empty | Branch, locale: ISO_639_1, localeKeys: ISO_639_1[]) {
   const translation = await branch.fromApi(locale, localeKeys);

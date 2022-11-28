@@ -75,7 +75,7 @@ export default function Input({
         googleTranslate.word
       );
       onChange(translation.charAt(0).toUpperCase() + translation.slice(1));
-    } catch (e) {
+    } catch (e: any) {
       setError(e.message);
     }
     clearTimeout(timer);
