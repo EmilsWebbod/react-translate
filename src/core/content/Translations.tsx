@@ -1,6 +1,5 @@
-import * as React from 'react';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import Typography from '@material-ui/core/Typography';
+import React from 'react';
+import { LinearProgress, Typography } from '@material-ui/core';
 
 import { ReactTranslateContext } from '../../context/ReactTranslateContext.js';
 import Translate from './translations/Translate.js';
@@ -14,9 +13,7 @@ export default function Translations() {
     return (
       <>
         <LinearProgress color="secondary" />
-        <Typography>
-          Saving translations and refreshing... Please wait
-        </Typography>
+        <Typography>Saving translations and refreshing... Please wait</Typography>
       </>
     );
   }
@@ -39,11 +36,7 @@ export default function Translations() {
 
   const item = state.translations[0];
   return (
-    <TranslateProvider
-      key={item.branch.word}
-      item={item}
-      onTranslated={onTranslated}
-    >
+    <TranslateProvider key={item.branch.word} item={item} onTranslated={onTranslated}>
       <Translate last={state.translations.length === 1} />
     </TranslateProvider>
   );

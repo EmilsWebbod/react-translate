@@ -1,28 +1,24 @@
-import * as React from 'react';
+import React from 'react';
 import { ReactTranslateContext } from '../context/ReactTranslateContext.js';
-import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import { Dialog, DialogTitle, Grid, IconButton, makeStyles } from '@material-ui/core';
 import Translations from './content/Translations.js';
 import List from './content/List.js';
-import Grid from '@material-ui/core/Grid';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
-import makeStyles from '@material-ui/core/styles/makeStyles';
+import { Close as CloseIcon } from '@material-ui/icons';
 import Csv from './content/Csv.js';
 
 const useStyles = makeStyles(() => ({
   dialog: {
-    zIndex: 1301
-  }
-}))
+    zIndex: 1301,
+  },
+}));
 
 export default function Content() {
   const classes = useStyles();
   const [state, setState] = React.useContext(ReactTranslateContext);
 
   const handleClose = React.useCallback(() => {
-    setState(s => ({ ...s, show: null }))
-  }, [])
+    setState((s) => ({ ...s, show: null }));
+  }, []);
 
   return (
     <Dialog
@@ -40,7 +36,9 @@ export default function Content() {
         <Grid container alignItems="center" justify="space-between">
           <Grid item>{state.show?.toUpperCase()}</Grid>
           <Grid item>
-            <IconButton onClick={handleClose}><CloseIcon /></IconButton>
+            <IconButton onClick={handleClose}>
+              <CloseIcon />
+            </IconButton>
           </Grid>
         </Grid>
       </DialogTitle>
@@ -48,5 +46,5 @@ export default function Content() {
       {state.show === 'list' && <List />}
       {state.show === 'csv' && <Csv />}
     </Dialog>
-  )
+  );
 }

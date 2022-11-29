@@ -1,27 +1,30 @@
-import * as React from 'react';
-import { AppBar } from '@material-ui/core';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+import React from 'react';
+import {
+  AppBar,
+  Button,
+  DialogContent,
+  Grid,
+  IconButton,
+  LinearProgress,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField,
+} from '@material-ui/core';
+import { Tabs, Tab } from '@material-ui/core';
 import { Branch, WordTranslations } from '@ewb/translate';
-import Table from '@material-ui/core/Table';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
-import TableBody from '@material-ui/core/TableBody';
-import TableContainer from '@material-ui/core/TableContainer';
-import Paper from '@material-ui/core/Paper';
-import IconButton from '@material-ui/core/IconButton';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
-import CancelIcon from '@material-ui/icons/Cancel';
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import BackspaceIcon from '@material-ui/icons/Backspace';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import TextField from '@material-ui/core/TextField';
-import DialogContent from '@material-ui/core/DialogContent';
-import OpenInNew from '@material-ui/icons/OpenInNew';
+import {
+  Edit as EditIcon,
+  Delete as DeleteIcon,
+  Cancel as CancelIcon,
+  DeleteForever as DeleteForeverIcon,
+  Backspace as BackspaceIcon,
+  OpenInNew as OpenInNew,
+} from '@material-ui/icons';
 
 import { Settings } from '../../utils/settings.js';
 import { ReactTranslateContext } from '../../context/ReactTranslateContext.js';
@@ -54,7 +57,7 @@ export default function List() {
         return { ...s, [type]: new Set([...s[type]]) };
       });
     },
-    []
+    [],
   );
 
   const addDelete = React.useCallback(
@@ -64,15 +67,13 @@ export default function List() {
         return { ...s, [type]: new Set([...s[type]]) };
       });
     },
-    []
+    [],
   );
 
   const onDelete = React.useCallback(async () => {
     if (
       confirm(
-        `Are you sure you want to delete ${
-          deleteList.words.size + deleteList.texts.size
-        } items? (Window will refresh)`
+        `Are you sure you want to delete ${deleteList.words.size + deleteList.texts.size} items? (Window will refresh)`,
       )
     ) {
       try {
@@ -117,12 +118,7 @@ export default function List() {
         <Grid item>
           <Grid container spacing={1} alignItems="center">
             <Grid item>
-              <TextField
-                label="Search"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                variant="outlined"
-              />
+              <TextField label="Search" value={search} onChange={(e) => setSearch(e.target.value)} variant="outlined" />
             </Grid>
             <Grid item>
               <Button
@@ -165,11 +161,7 @@ export default function List() {
         </Grid>
       </Grid>
       <AppBar position="static">
-        <Tabs
-          value={active}
-          onChange={handleChange}
-          aria-label="simple tabs example"
-        >
+        <Tabs value={active} onChange={handleChange} aria-label="simple tabs example">
           <Tab label={`Words (${Object.keys(words).length})`} />
           <Tab label={`Texts (${Object.keys(texts).length})`} />
         </Tabs>
@@ -213,13 +205,7 @@ interface Props {
   addDelete: (word: string) => void;
 }
 
-function TranslationTable({
-  translation,
-  removeDelete,
-  addDelete,
-  deleteList,
-  isText,
-}: Props) {
+function TranslationTable({ translation, removeDelete, addDelete, deleteList, isText }: Props) {
   const [state, setState] = React.useContext(ReactTranslateContext);
   const [active, setActive] = React.useState<Branch | null>(null);
   const settings = Settings.of();
@@ -235,15 +221,11 @@ function TranslationTable({
       if (!branch) return;
 
       setState((s) => {
-        const [, translations] = addTranslations(
-          s.translations,
-          settings.translate,
-          branch
-        );
+        const [, translations] = addTranslations(s.translations, settings.translate, branch);
         return { ...s, translations };
       });
     },
-    [settings.translate]
+    [settings.translate],
   );
 
   const onRemove = React.useCallback((word) => {

@@ -1,14 +1,11 @@
-import * as React from 'react';
-import Grid from '@material-ui/core/Grid';
-import { Typography } from '@material-ui/core';
-import Chip from '@material-ui/core/Chip';
-import Button from '@material-ui/core/Button';
-import MoreIcon from '@material-ui/icons/More';
+import React from 'react';
+import { Avatar, Button, Chip, Typography, Grid, Tooltip } from '@material-ui/core';
+import {
+  More as MoreIcon,
+  VisibilityOutlined as VisibilityOutlinedIcon,
+  Visibility as VisibilityIcon,
+} from '@material-ui/icons';
 import { Branch, ISO_639_1, Translations } from '@ewb/translate';
-import Avatar from '@material-ui/core/Avatar';
-import Tooltip from '@material-ui/core/Tooltip';
-import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
-import VisibilityIcon from '@material-ui/icons/Visibility';
 import { TranslateContext } from '../context/TranslateContext.js';
 
 interface Props {
@@ -17,15 +14,13 @@ interface Props {
 
 const INCREMENT = 5;
 
-export default function Suggestions({
-  suggestions
-}: Props) {
+export default function Suggestions({ suggestions }: Props) {
   const { onChange } = React.useContext(TranslateContext);
-  const [max, setMax] = React.useState(10)
+  const [max, setMax] = React.useState(10);
   const [state, setState] = React.useState<{
     word: string;
     translations: Translations | null;
-  }>({ word: '', translations: null })
+  }>({ word: '', translations: null });
 
   const length = suggestions.length;
   const of = length > max ? max : length;
@@ -34,13 +29,15 @@ export default function Suggestions({
   const showTranslations = React.useCallback((suggestion: Branch) => {
     setState({
       translations: suggestion.translations,
-      word: suggestion.word
+      word: suggestion.word,
     });
-  }, [])
+  }, []);
 
   return suggestions && suggestions.length > 0 ? (
     <Grid container direction="column" spacing={1}>
-      <Typography variant="subtitle1">Suggestions {of}/{length}:</Typography>
+      <Typography variant="subtitle1">
+        Suggestions {of}/{length}:
+      </Typography>
       <Grid container spacing={1}>
         {suggestionList.map((suggestion, i) => (
           <Grid item key={i}>
@@ -49,10 +46,7 @@ export default function Suggestions({
                 label={suggestion.word}
                 variant="outlined"
                 onClick={() => showTranslations(suggestion)}
-                icon={state.word === suggestion.word
-                  ? <VisibilityIcon />
-                  : <VisibilityOutlinedIcon />
-                }
+                icon={state.word === suggestion.word ? <VisibilityIcon /> : <VisibilityOutlinedIcon />}
               />
             </Tooltip>
           </Grid>
@@ -64,8 +58,10 @@ export default function Suggestions({
               color="secondary"
               startIcon={<MoreIcon />}
               size="small"
-              onClick={() => setMax(s => s + INCREMENT)}
-            >Mer</Button>
+              onClick={() => setMax((s) => s + INCREMENT)}
+            >
+              Mer
+            </Button>
           </Grid>
         )}
       </Grid>
@@ -83,5 +79,7 @@ export default function Suggestions({
         </Grid>
       )}
     </Grid>
-  ) : <></>;
+  ) : (
+    <></>
+  );
 }

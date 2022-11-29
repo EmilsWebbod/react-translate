@@ -1,23 +1,24 @@
-import * as React from 'react';
+import React from 'react';
 import { Branch } from '@ewb/translate';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
-import Typography from '@material-ui/core/Typography';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import DialogActions from '@material-ui/core/DialogActions';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import PrintIcon from '@material-ui/icons/Print';
+import {
+  DialogTitle,
+  DialogContent,
+  Typography,
+  List,
+  ListItem,
+  DialogActions,
+  Button,
+  Dialog,
+  ListItemAvatar,
+  Avatar,
+  ListItemText,
+  ListItemIcon,
+  Badge,
+  Tooltip,
+} from '@material-ui/core';
+import { Print as PrintIcon, Info } from '@material-ui/icons';
 
 import { Settings } from '../../../utils/settings.js';
-import { Badge } from '@material-ui/core';
-import { Info } from '@material-ui/icons';
-import Tooltip from '@material-ui/core/Tooltip';
 
 interface Props {
   active: Branch | null;
@@ -34,7 +35,7 @@ export default function ActiveTranslation({ active, setActive }: Props) {
   const type = active && active.sentence ? 'texts' : 'words';
   const usageStack = active ? active.usageStack : [];
   const usage = (active ? settings.getUsage(type, active.word) : []).filter(
-    (x) => !usageStack.some((y) => x.file === y.file)
+    (x) => !usageStack.some((y) => x.file === y.file),
   );
   const size = '30px';
 
@@ -44,11 +45,7 @@ export default function ActiveTranslation({ active, setActive }: Props) {
         <>
           <DialogTitle>{word}</DialogTitle>
           <DialogContent>
-            {active.packageName && (
-              <Typography variant="subtitle1">
-                NPM pakke: {active.packageName}
-              </Typography>
-            )}
+            {active.packageName && <Typography variant="subtitle1">NPM pakke: {active.packageName}</Typography>}
             <Badge
               badgeContent={
                 <Tooltip
@@ -59,17 +56,11 @@ export default function ActiveTranslation({ active, setActive }: Props) {
                 </Tooltip>
               }
             >
-              <Typography variant="subtitle1">
-                Usages (Click to print stacktrace to console)
-              </Typography>
+              <Typography variant="subtitle1">Usages (Click to print stacktrace to console)</Typography>
             </Badge>
             <List>
               {[...usageStack, ...usage].map((usage) => (
-                <ListItem
-                  key={usage.file}
-                  button
-                  onClick={() => console.info(usage.stack)}
-                >
+                <ListItem key={usage.file} button onClick={() => console.info(usage.stack)}>
                   <ListItemIcon>
                     <PrintIcon />
                   </ListItemIcon>
@@ -83,13 +74,11 @@ export default function ActiveTranslation({ active, setActive }: Props) {
                 trans !== 'key' ? (
                   <ListItem key={trans}>
                     <ListItemAvatar>
-                      <Avatar style={{ width: size, height: size }}>
-                        {trans}
-                      </Avatar>
+                      <Avatar style={{ width: size, height: size }}>{trans}</Avatar>
                     </ListItemAvatar>
                     <ListItemText primary={active.translations[trans]} />
                   </ListItem>
-                ) : null
+                ) : null,
               )}
             </List>
           </DialogContent>

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { TranslationItem } from '../types/translationItem.js';
 import { Branch, ISO_639_1, Translations } from '@ewb/translate';
 import { LocaleObject, Settings } from '../utils/settings.js';
@@ -23,8 +23,8 @@ const defaultContext: Context = {
 
   translations: {},
   apiTranslations: {},
-  busy: false
-}
+  busy: false,
+};
 
 export const TranslateContext = React.createContext(defaultContext);
 
@@ -39,11 +39,7 @@ interface State {
   apiTranslations: Translations;
 }
 
-export function TranslateProvider({
-  children,
-  item,
-  onTranslated
-}: Props) {
+export function TranslateProvider({ children, item, onTranslated }: Props) {
   const settings = new Settings();
 
   const locale = item.translate.defaultLocale as ISO_639_1;
@@ -53,60 +49,66 @@ export function TranslateProvider({
   const [state, setState] = React.useState<State>({
     translations: localeKeys.reduce((obj, x) => ({ ...obj, [x]: item.branch.translations[x] || '' }), {}),
     busy: false,
-    apiTranslations: {}
+    apiTranslations: {},
   });
 
-  const save = React.useCallback(async (e?: React.FormEvent) => {
-    if (e) {
-      e.preventDefault();
-    }
-    if (item.branch instanceof Branch) {
-      item.branch.addTranslations(state.translations);
-    } else {
-      item.branch.add(state.translations);
-    }
-    setState(s => ({ ...s, busy: true }));
-
-    try {
-      if (settings.apiServer) {
-        await item.branch.toApi(locale);
+  const save = React.useCallback(
+    async (e?: React.FormEvent) => {
+      if (e) {
+        e.preventDefault();
       }
-    } catch (e) {
-      console.error(e);
-    }
+      if (item.branch instanceof Branch) {
+        item.branch.addTranslations(state.translations);
+      } else {
+        item.branch.add(state.translations);
+      }
+      setState((s) => ({ ...s, busy: true }));
 
-    setState(s => ({ ...s, busy: false }));
-    onTranslated();
-  }, [state.translations, settings.apiServer, locale, onTranslated, item])
+      try {
+        if (settings.apiServer) {
+          await item.branch.toApi(locale);
+        }
+      } catch (e) {
+        console.error(e);
+      }
+
+      setState((s) => ({ ...s, busy: false }));
+      onTranslated();
+    },
+    [state.translations, settings.apiServer, locale, onTranslated, item],
+  );
 
   const checkApi = React.useCallback(async () => {
-    setState(s => ({ ...s, busy: true }));
+    setState((s) => ({ ...s, busy: true }));
     try {
       const translations = await getApiTranslations(item.branch, locale, localeKeys);
-      setState(s => ({
+      setState((s) => ({
         busy: false,
-        translations: localeKeys.reduce((obj, key) => ({
-          ...obj,
-          [key]: translations[key]
-            ? translations[key].split(',')[0]
-            : s.translations[key]
-        }), {}),
-        apiTranslations: translations
-      }))
+        translations: localeKeys.reduce(
+          (obj, key) => ({
+            ...obj,
+            [key]: translations[key] ? translations[key].split(',')[0] : s.translations[key],
+          }),
+          {},
+        ),
+        apiTranslations: translations,
+      }));
     } catch (e) {
-      setState(s => ({ ...s, busy: false }));
+      setState((s) => ({ ...s, busy: false }));
       console.warn('No translations');
     }
-  }, [item.branch, locale, localeKeys])
+  }, [item.branch, locale, localeKeys]);
 
   const onChange = React.useCallback((key: ISO_639_1, value: string) => {
-    setState(s => ({
+    setState((s) => ({
       ...s,
-      translations: {...s.translations, [key]: value }
+      translations: { ...s.translations, [key]: value },
     }));
-  }, [])
+  }, []);
 
-  React.useEffect(() => {checkApi().then();}, []);
+  React.useEffect(() => {
+    checkApi().then();
+  }, []);
 
   return (
     <TranslateContext.Provider
@@ -117,9 +119,10 @@ export function TranslateProvider({
         localeKeys,
         save,
         onChange,
-        ...state
-      }}>
+        ...state,
+      }}
+    >
       {children}
     </TranslateContext.Provider>
-  )
+  );
 }

@@ -1,13 +1,12 @@
-import * as React from 'react';
+import React from 'react';
 import json2csv from 'json2csv';
 import csv from 'csvtojson';
-import DialogContent from '@material-ui/core/DialogContent';
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
-import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import SaveIcon from '@material-ui/icons/Save';
-import LinearProgress from '@material-ui/core/LinearProgress';
+import { DialogContent, Grid, Button, LinearProgress } from '@material-ui/core';
+import {
+  CloudDownload as CloudDownloadIcon,
+  CloudUpload as CloudUploadIcon,
+  Save as SaveIcon,
+} from '@material-ui/icons';
 
 import { Settings } from '../../utils/settings.js';
 import { ISO_639_1, Translations, WordTranslations } from '@ewb/translate';
@@ -26,19 +25,14 @@ export default function Csv() {
   const locale = settings.translate.defaultLocale;
   const locales = settings.localeKeys;
   const translate = settings.translate;
-  const noItems =
-    Object.keys(state.words).length === 0 &&
-    Object.keys(state.texts).length === 0;
+  const noItems = Object.keys(state.words).length === 0 && Object.keys(state.texts).length === 0;
 
   const exportTranslations = React.useCallback(() => {
     const words = translate.exportWords();
     const texts = translate.exportTexts();
 
     const connected = { ...words, ...texts };
-    const rows = Object.keys(connected).reduce(
-      (arr, x) => [...arr, { [locale]: x, ...connected[x] }],
-      [] as any[]
-    );
+    const rows = Object.keys(connected).reduce((arr, x) => [...arr, { [locale]: x, ...connected[x] }], [] as any[]);
 
     const fields = [locale, ...locales];
     const parser = new json2csv.Parser({ fields, delimiter: ';' });
@@ -53,9 +47,7 @@ export default function Csv() {
         const fr = new FileReader();
         fr.onloadend = async () => {
           if (fr.result) {
-            const translations = await csv({ delimiter: ';' }).fromString(
-              String(fr.result)
-            );
+            const translations = await csv({ delimiter: ';' }).fromString(String(fr.result));
             const words: WordTranslations = { ...state.words };
             const texts: WordTranslations = { ...state.texts };
             for (const translation of translations) {
@@ -78,7 +70,7 @@ export default function Csv() {
         fr.readAsText(file, 'utf-8');
       }
     },
-    [state, translate, locales, locale]
+    [state, translate, locales, locale],
   );
 
   const onSave = React.useCallback(async () => {
@@ -176,12 +168,7 @@ export default function Csv() {
               <Grid container alignItems="center" direction="column">
                 <Grid item>
                   <label htmlFor="import-csv">
-                    <Button
-                      variant="outlined"
-                      color="primary"
-                      startIcon={<CloudUploadIcon />}
-                      component="span"
-                    >
+                    <Button variant="outlined" color="primary" startIcon={<CloudUploadIcon />} component="span">
                       Import CSV
                     </Button>
                   </label>

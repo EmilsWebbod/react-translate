@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import * as ReactDOM from 'react-dom';
 import Translate, { Branch, Empty, TranslateOptions, TranslationApi } from '@ewb/translate';
 
@@ -33,22 +33,16 @@ function SpawnMenu() {
       <Menu show={show} onClose={() => setShow(false)} />
       <Content />
     </ReactTranslateProvider>
-  )
+  );
 }
 
-export default ({
-  locales,
-  fileServerURL,
-  googleAPIKey,
-  apiServer,
-  settings
-}: Options) => {
+export default ({ locales, fileServerURL, googleAPIKey, apiServer, settings }: Options) => {
   const translateSettings = new Settings(locales, fileServerURL, googleAPIKey, Boolean(apiServer));
 
   if (apiServer) {
     new TranslationApi(apiServer);
   }
-  
+
   if (settings) {
     translateSettings.translateSettings = settings;
   }
@@ -56,14 +50,14 @@ export default ({
   if (typeof document !== 'undefined') {
     const translateElem = document.createElement('div');
     translateElem.id = 'react-translate';
-    document.body.appendChild(translateElem)
+    document.body.appendChild(translateElem);
     ReactDOM.render(<SpawnMenu />, translateElem);
   }
-  
+
   return (props: TranslateOptions) => {
     const translate = new Translate(props);
     translateSettings.setTranslate(translate);
     return translate;
   };
-}
+};
 export { handleNoMatch, handleNoTranslation };
