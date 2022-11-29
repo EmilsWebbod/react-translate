@@ -14,10 +14,10 @@
   resolved "https://registry.yarnpkg.com/@emotion/hash/-/hash-0.8.0.tgz#bbbff68978fefdbe68ccb533bc8cbe1d1afb5413"
   integrity sha512-kBJtf7PH6aWwZ6fka3zQ0p6SBYzx4fl1LoZXE2RrnYST9Xljm7WfKJrU4g/Xr3Beg72MLrp1AWNUmuYJTL7Cow==
 
-"@ewb/translate@^1.9.5":
-  version "1.9.5"
-  resolved "https://registry.yarnpkg.com/@ewb/translate/-/translate-1.9.5.tgz#7664be65c237aeff15c6b34a4572e4f0c8dbc9b6"
-  integrity sha512-b8ANiGeAuKwSQzrb30Smt7Q9V8IVOMnPI4uibp2imHxmbWMH1OdM2X12fFGsPMbpkVPRbnIm/3/m6PNOLz7Udw==
+"@ewb/translate@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@ewb/translate/-/translate-2.0.2.tgz#8353d75e6d2665d852d5c3bc2429eb7ba6f45193"
+  integrity sha512-VwR48YjU/jmXo8kP+dc/WwJuL8eLluIekPgX1ngsReYAivLzqCLj1SAvxRhcrRALyb+5AijtU1Yqp72H1j3Zvg==
 
 "@material-ui/core@^4.10.2":
   version "4.10.2"

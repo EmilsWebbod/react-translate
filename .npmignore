@@ -11,6 +11,7 @@ src/
 *.ts
 *.map
 !*.d.ts
+google-translate.d.ts
 
 # Project files
 .gitattributes

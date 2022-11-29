@@ -1,5 +1,5 @@
 import React from 'react';
-import * as ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom';
 import Translate, { Branch, Empty, TranslateOptions, TranslationApi } from '@ewb/translate';
 
 import { LocaleObject, Settings } from './utils/settings.js';

@@ -1,7 +1,7 @@
 import React from 'react';
-import json2csv from 'json2csv';
 import csv from 'csvtojson';
-import { DialogContent, Grid, Button, LinearProgress } from '@material-ui/core';
+import { ISO_639_1, Translations, WordTranslations } from '@ewb/translate';
+import { DialogContent, Grid, Button, LinearProgress, Typography } from '@material-ui/core';
 import {
   CloudDownload as CloudDownloadIcon,
   CloudUpload as CloudUploadIcon,
@@ -9,9 +9,7 @@ import {
 } from '@material-ui/icons';
 
 import { Settings } from '../../utils/settings.js';
-import { ISO_639_1, Translations, WordTranslations } from '@ewb/translate';
 import ImportList from './csv/ImportList.js';
-import { Typography } from '@material-ui/core';
 
 interface State {
   words: WordTranslations;
@@ -28,16 +26,17 @@ export default function Csv() {
   const noItems = Object.keys(state.words).length === 0 && Object.keys(state.texts).length === 0;
 
   const exportTranslations = React.useCallback(() => {
-    const words = translate.exportWords();
-    const texts = translate.exportTexts();
-
-    const connected = { ...words, ...texts };
-    const rows = Object.keys(connected).reduce((arr, x) => [...arr, { [locale]: x, ...connected[x] }], [] as any[]);
-
-    const fields = [locale, ...locales];
-    const parser = new json2csv.Parser({ fields, delimiter: ';' });
-    const csv = parser.parse(rows);
-    download(csv);
+    // const words = translate.exportWords();
+    // const texts = translate.exportTexts();
+    //
+    // const connected = { ...words, ...texts };
+    // const rows = Object.keys(connected).reduce((arr, x) => [...arr, { [locale]: x, ...connected[x] }], [] as any[]);
+    //
+    // const fields = [locale, ...locales];
+    // const parser = new Parser({ fields, delimiter: ';' });
+    // const csv = parser.parse(rows);
+    // download(csv);
+    alert('Temporary disabled unit csv2json works in module and frontend');
   }, [translate, settings, locales, locale]);
 
   const importTranslations = React.useCallback(
